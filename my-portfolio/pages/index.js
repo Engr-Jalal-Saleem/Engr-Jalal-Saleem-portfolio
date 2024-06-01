@@ -11,6 +11,7 @@ import Certificates from '../components/Certificates'
 import Interests from '../components/Interests'
 import Contact from '../components/Contact'
 
+
 export default function Home() {
   return (
     <div>

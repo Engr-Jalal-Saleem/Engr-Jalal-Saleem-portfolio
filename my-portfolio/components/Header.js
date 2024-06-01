@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+
 const Header = () => {
   return (
     <header className="bg-cover bg-center text-white p-8 flex justify-between items-center" style={{ backgroundImage: "url('/Banner.jpg')" }}>
