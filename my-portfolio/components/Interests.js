@@ -1,11 +1,26 @@
 import { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence, cubicBezier } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaLaptopCode, FaLightbulb, FaProjectDiagram, FaBrain } from 'react-icons/fa';
+import { 
+  FaLaptopCode, FaLightbulb, FaProjectDiagram, FaBrain, 
+  FaRobot, FaPuzzlePiece, FaUsers, FaGraduationCap 
+} from 'react-icons/fa';
 
-const InterestCard = ({ icon: Icon, title, description, index }) => {
+const iconMap = {
+  'Technology': FaLaptopCode,
+  'Innovation': FaLightbulb,
+  'Project Management': FaProjectDiagram,
+  'Continuous Learning': FaBrain,
+  'Artificial Intelligence': FaRobot,
+  'Problem Solving': FaPuzzlePiece,
+  'Team Leadership': FaUsers,
+  'Education': FaGraduationCap
+};
+
+const InterestCard = ({ title, description, index }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, rootMargin: '-50px 0px' });
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (inView) {
@@ -13,18 +28,32 @@ const InterestCard = ({ icon: Icon, title, description, index }) => {
     }
   }, [controls, inView]);
 
+  const Icon = iconMap[title] || FaCode;
+
   const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 50, rotateY: -15 },
     visible: { 
       opacity: 1, 
       y: 0, 
+      rotateY: 0,
       transition: { 
         duration: 0.6, 
-        ease: 'easeOut', 
-        delay: index * 0.2 
+        ease: cubicBezier(0.6, 0.05, -0.01, 0.9), 
+        delay: index * 0.1 
       } 
     }
   };
+
+  const containerVariants = {
+    rest: { backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' },
+    hover: { 
+      backgroundColor: '#F0F5FF', 
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      transition: { duration: 0.3, ease: 'easeOut' }
+    }
+  };
+
+  const proficiency = 75 + Math.floor(Math.random() * 26); // Random proficiency between 75 and 100
 
   return (
     <motion.div 
@@ -32,22 +61,66 @@ const InterestCard = ({ icon: Icon, title, description, index }) => {
       variants={cardVariants}
       initial="hidden"
       animate={controls}
-      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:scale-105 duration-300 ease-in-out"
+      className="w-full md:w-1/2 lg:w-1/4 p-4"
     >
-      <div className="flex items-center justify-center mb-4">
-        <Icon className="text-purple-500 text-4xl" />
-      </div>
-      <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <motion.div 
+        variants={containerVariants}
+        initial="rest"
+        whileHover="hover"
+        className="p-6 rounded-lg transition-all duration-300 ease-in-out h-full flex flex-col"
+      >
+        <div className="flex items-center mb-6">
+          <motion.div 
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: index * 0.1 + 0.6, duration: 0.5, type: 'spring', stiffness: 200 }}
+            className="text-3xl text-indigo-600 dark:text-indigo-400 mr-4"
+          >
+            <Icon />
+          </motion.div>
+          <h3 className="font-bold text-indigo-800 dark:text-indigo-300 text-xl">{title}</h3>
+        </div>
+        <p className="text-gray-600 dark:text-gray-400 mb-4 flex-grow">{description}</p>
+        <div className="relative h-4 bg-indigo-200 dark:bg-indigo-900 rounded-full overflow-hidden">
+          <AnimatePresence>
+            {isHovered && (
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-white dark:bg-gray-800 px-2 py-1 rounded shadow"
+              >
+                {proficiency}%
+              </motion.span>
+            )}
+          </AnimatePresence>
+          <motion.div 
+            style={{ width: `${proficiency}%` }}
+            initial={{ scaleX: 0 }}
+            animate={controls}
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full"
+            transition={{ duration: 1.5, ease: cubicBezier(0.12, 0, 0.39, 0), delay: index * 0.1 + 0.3 }}
+            onHoverStart={() => setIsHovered(true)}
+            onHoverEnd={() => setIsHovered(false)}
+          />
+        </div>
+      </motion.div>
     </motion.div>
   );
 };
 
 const Interests = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(prefersDarkMode);
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => setIsDarkMode(e.matches);
+    mediaQuery.addListener(handleChange);
+    return () => mediaQuery.removeListener(handleChange);
   }, []);
 
   const titleControls = useAnimation();
@@ -60,22 +133,50 @@ const Interests = () => {
   }, [titleControls, titleInView]);
 
   const titleVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } }
+    hidden: { opacity: 0, y: -50, rotateX: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      rotateX: 0, 
+      transition: { duration: 1, ease: cubicBezier(0.6, 0.05, -0.01, 0.9) } 
+    }
   };
 
   const interestsData = [
-    { icon: FaLaptopCode, title: 'Technology', description: 'Exploring new technologies and working on innovative projects.', index: 0 },
-    { icon: FaLightbulb, title: 'Innovation', description: 'Tackling complex problems and coming up with efficient solutions.', index: 1 },
-    { icon: FaProjectDiagram, title: 'Project Management', description: 'Leading projects and ensuring they are completed successfully.', index: 2 },
-    { icon: FaBrain, title: 'Continuous Learning', description: 'Always expanding my knowledge and skills.', index: 3 }
+    { title: 'Technology', description: 'Exploring new tech and working on innovative projects.', index: 0 },
+    { title: 'Innovation', description: 'Tackling complex problems with efficient solutions.', index: 1 },
+    { title: 'Project Management', description: 'Leading projects to successful completion.', index: 2 },
+    { title: 'Continuous Learning', description: 'Always expanding my knowledge base.', index: 3 },
+    { title: 'Artificial Intelligence', description: 'Exploring the frontiers of AI.', index: 4 },
+    { title: 'Problem Solving', description: 'Cracking complex puzzles.', index: 5 },
+    { title: 'Team Leadership', description: 'Guiding teams to victory.', index: 6 },
+    { title: 'Education', description: 'Sharing knowledge with others.', index: 7 }
   ];
 
+  const backgroundVariants = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: { 
+      pathLength: 1, 
+      opacity: 0.1, 
+      transition: { duration: 2, ease: 'easeInOut', delay: 0.5 } 
+    }
+  };
+
   return (
-    <section id="interests" className="py-24 text-center bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full">
-        <svg className="w-full h-full text-gray-200 opacity-70 transform -scale-x-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path fill="currentColor" fillOpacity="1" d="M0,224L80,186.7C160,149,320,75,480,80C640,85,800,171,960,192C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+    <section 
+      id="interests" 
+      className={`py-24 text-center relative overflow-hidden transition-colors duration-500 ease-in-out ${isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-indigo-50 to-blue-100'}`}
+    >
+      <div className="absolute top-0 right-0 w-full h-full opacity-10 transform scale-x-100">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <motion.path 
+            fill={isDarkMode ? '#1E40AF' : '#3B82F6'} 
+            fillOpacity="1"
+            d="M0,192L60,208C120,224,240,256,360,261.3C480,267,600,245,720,240C840,235,960,245,1080,218.7C1200,192,1320,128,1380,96L1440,64L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+            variants={backgroundVariants}
+            initial="hidden"
+            animate="visible"
+          />
         </svg>
       </div>
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -84,20 +185,36 @@ const Interests = () => {
           variants={titleVariants}
           initial="hidden"
           animate={titleControls}
-          className="text-4xl font-extrabold mb-8 text-gray-900 inline-block relative"
+          className={`text-5xl font-black mb-12 inline-block relative ${isDarkMode ? 'text-indigo-300' : 'text-indigo-800'}`}
         >
-          Interests
-          <span className="absolute -bottom-2 left-0 w-full h-1 bg-purple-500 transform origin-left" style={{
-            scaleX: isLoaded ? 1 : 0,
-            transition: 'transform 1s ease-out 0.5s'
-          }}></span>
+          My Interests Arsenal
+          <motion.span 
+            className={`absolute -bottom-2 left-0 w-full h-1.5 ${isDarkMode ? 'bg-indigo-500' : 'bg-indigo-600'}`}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.5, ease: cubicBezier(0.6, 0.05, -0.01, 0.9), delay: 0.5 }}
+          />
         </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="flex flex-wrap -mx-4">
           {interestsData.map((interest, index) => (
             <InterestCard key={interest.title} {...interest} index={index} />
           ))}
         </div>
+        <motion.p 
+          className={`mt-12 italic ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: cubicBezier(0.6, 0.05, -0.01, 0.9), delay: 1.5 }}
+        >
+          Curiosity drives me, passion guides me, growth defines me.
+        </motion.p>
       </div>
+      <button 
+        onClick={() => setIsDarkMode(!isDarkMode)} 
+        className={`fixed bottom-4 right-4 p-3 rounded-full text-white transition-all duration-500 ease-in-out transform hover:scale-110 hover:rotate-12 ${isDarkMode ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+      >
+        {isDarkMode ? '🌙' : '☀️'}
+      </button>
     </section>
   );
 };
