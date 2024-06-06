@@ -1,5 +1,3 @@
 module.exports = {
-    output: {
-      format: 'export',
-    },
+    output: 'export',
   }
