@@ -1,11 +1,11 @@
 {
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start",
-    "deploy": "next build && next export && gh-pages -d out",
-    "lint": "next lint"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "deploy": "next build && gh-pages -d out",
+  "lint": "next lint"
+},
   "name": "my-portfolio",
   "version": "0.1.0",
   "private": true,
