@@ -140,8 +140,8 @@ const ExperienceTemplate = ({ title = 'Experience', items = [], iconMap = {}, is
   const defaultItems = [
     { period: 'Jun 2021 – Present', title: 'Social Media Manager @ JS Digital Marketer', description: 'Worked on Facebook, Instagram, and X as a Social Media Manager.', type: 'Social Media Manager' },
     { period: 'January 2022 – Present', title: 'Poster Designer', description: 'Worked on Facebook and Instagram as a Poster Designer, creating social media posts, posters, banners, and thumbnails.', type: 'Poster Designer' },
-    { period: 'Feb 2020 – May 2021', title: 'Content Creator @ XYZ Media', description: 'Developed engaging content for social media platforms, increasing engagement by 30%.', type: 'Content Creator' },
-    { period: 'Sep 2019 – Jan 2020', title: 'Graphic Designer @ ABC Designs', description: 'Designed graphics for various marketing campaigns and collaborated with the marketing team to enhance visual communication.', type: 'Graphic Designer' }
+    { period: 'Feb 2020 – Present', title: 'Content Creator', description: 'Developed engaging content for social media platforms, increasing engagement by 30%.', type: 'Content Creator' },
+    { period: 'Sep 2019 – Present', title: 'Graphic Designer', description: 'Designed graphics for various marketing campaigns and collaborated with the marketing team to enhance visual communication.', type: 'Graphic Designer' }
   ];
 
   const experienceItems = items.length > 0 ? items : defaultItems;

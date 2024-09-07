@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useAnimation, AnimatePresence, cubicBezier } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { 
@@ -7,8 +7,7 @@ import {
   FaCircuit, FaDraftingCompass, FaMobileAlt, FaCalculator
 } from 'react-icons/fa';
 
-// Original icon map, can be extended or modified as needed
-const defaultIconMap = {
+const iconMap = {
   'Python': FaPython,
   'C++ / C': FaCode,
   'TypeScript': FaCode,
@@ -30,7 +29,7 @@ const defaultIconMap = {
   'Signal Processing': FaChartLine
 };
 
-const SkillCard = ({ skill, proficiency, index, iconMap = {} }) => {
+const SkillCard = ({ skill, proficiency, index }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, rootMargin: '-50px 0px' });
   const [isHovered, setIsHovered] = useState(false);
@@ -41,8 +40,7 @@ const SkillCard = ({ skill, proficiency, index, iconMap = {} }) => {
     }
   }, [controls, inView]);
 
-  const combinedIconMap = { ...defaultIconMap, ...iconMap };
-  const Icon = combinedIconMap[skill] || FaCode;
+  const Icon = iconMap[skill] || FaCode;
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50, rotateY: -15 },
@@ -51,31 +49,19 @@ const SkillCard = ({ skill, proficiency, index, iconMap = {} }) => {
       y: 0, 
       rotateY: 0,
       transition: { 
-        duration: 0.6, 
-        ease: cubicBezier(0.6, 0.05, -0.01, 0.9), 
-        delay: index * 0.1 
+        duration: 0.8, 
+        ease: cubicBezier(0.6, 0.05, -0.01, 0.9),
+        delay: index * 0.3 
       } 
     }
   };
 
-  const barVariants = {
-    hidden: { width: 0 },
-    visible: { 
-      width: `${proficiency}%`, 
-      transition: { 
-        duration: 1.5, 
-        ease: cubicBezier(0.12, 0, 0.39, 0),
-        delay: index * 0.1 + 0.3 
-      } 
-    }
-  };
-
-  const containerVariants = {
-    rest: { backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' },
+  const hoverVariants = {
+    rest: { scale: 1, boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' },
     hover: { 
-      backgroundColor: '#EBF8FF', 
+      scale: 1.05, 
       boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-      transition: { duration: 0.3, ease: 'easeOut' }
+      transition: { type: 'spring', stiffness: 400, damping: 10 }
     }
   };
 
@@ -85,100 +71,82 @@ const SkillCard = ({ skill, proficiency, index, iconMap = {} }) => {
       variants={cardVariants}
       initial="hidden"
       animate={controls}
-      className="w-64 mb-10 mx-4"
+      whileHover="hover"
+      className="bg-white dark:bg-gray-800 p-6 rounded-lg relative overflow-hidden group w-full md:w-1/2 lg:w-1/3"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       <motion.div 
-        variants={containerVariants}
-        initial="rest"
-        whileHover="hover"
-        className="p-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105"
-      >
-        <div className="flex items-center mb-6">
-          <motion.div 
-            initial={{ scale: 0, rotate: -45 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: index * 0.1 + 0.6, duration: 0.5, type: 'spring', stiffness: 200 }}
-            className="text-3xl text-blue-600 dark:text-blue-400 mr-4"
-          >
-            <Icon />
-          </motion.div>
-          <h3 className="font-bold text-blue-800 dark:text-blue-300 text-lg truncate flex-1" title={skill}>{skill}</h3>
+        variants={hoverVariants}
+        className="absolute inset-0 bg-gradient-to-br from-blue-700 to-indigo-900 dark:from-blue-900 dark:to-indigo-1100 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+      />
+      <motion.div 
+        className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-blue-500 to-indigo-600"
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ delay: index * 0.3 + 0.5, duration: 0.6, ease: cubicBezier(0.6, 0.05, -0.01, 0.9) }}
+      />
+      <div className="relative z-10 transition-colors duration-300 group-hover:text-white">
+        <div className="flex items-center mb-4">
+          <Icon className="text-3xl text-blue-600 dark:text-blue-400 mr-4 group-hover:text-white" />
+          <h3 className="text-xl font-bold text-blue-800 dark:text-blue-300 group-hover:text-white">{skill}</h3>
         </div>
         <div className="relative h-4 bg-blue-200 dark:bg-blue-900 rounded-full overflow-hidden">
-          <AnimatePresence>
-            {isHovered && (
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 text-xs font-semibold text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-800 px-2 py-1 rounded shadow"
-              >
-                {proficiency}%
-              </motion.span>
-            )}
-          </AnimatePresence>
           <motion.div 
-            variants={barVariants}
-            initial="hidden"
-            animate={controls}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full cursor-pointer"
+            initial={{ width: 0 }}
+            animate={{ width: `${proficiency}%` }}
+            transition={{ duration: 1.5, ease: cubicBezier(0.12, 0, 0.39, 0), delay: index * 0.3 + 0.3 }}
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full"
           />
         </div>
-      </motion.div>
+        <AnimatePresence>
+          {isHovered && (
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 text-sm font-semibold text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-800 px-2 py-1 rounded shadow group-hover:text-white"
+            >
+              {proficiency}%
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
     </motion.div>
   );
 };
 
-const SkillsTemplate = ({ title, subtitle, skills = [], darkModePreference = null }) => {
+const Skills = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(prefersDarkMode);
+  }, []);
+
   const titleControls = useAnimation();
   const [titleRef, titleInView] = useInView({ triggerOnce: true, rootMargin: '-100px 0px' });
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     if (titleInView) {
       titleControls.start('visible');
     }
-    if (darkModePreference !== null) {
-      setIsDarkMode(darkModePreference);
-    } else {
-      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDarkMode(prefersDarkMode);
-    }
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      if (darkModePreference === null) {
-        setIsDarkMode(e.matches);
-      }
-    };
-    mediaQuery.addListener(handleChange);
-    return () => mediaQuery.removeListener(handleChange);
-  }, [titleControls, titleInView, darkModePreference]);
+  }, [titleControls, titleInView]);
 
   const titleVariants = {
-    hidden: { opacity: 0, y: -50, rotateX: 20 },
+    hidden: { opacity: 0, y: -50, rotateX: -15 },
     visible: { 
       opacity: 1, 
       y: 0, 
       rotateX: 0, 
-      transition: { duration: 1, ease: cubicBezier(0.6, 0.05, -0.01, 0.9) } 
+      transition: { duration: 1, ease: cubicBezier(0.6, 0.05, -0.01, 0.9), delay: 0.2 } 
     }
   };
 
-  const backgroundVariants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: { 
-      pathLength: 1, 
-      opacity: 0.1, 
-      transition: { duration: 2, ease: 'easeInOut', delay: 0.5 } 
-    }
-  };
-
-  // Original skills data
-  const defaultSkills = [
+  const skillsData = [
     { skill: "Python", proficiency: 75 },
     { skill: "C++ / C", proficiency: 75 },
     { skill: "TypeScript", proficiency: 60 },
@@ -200,23 +168,11 @@ const SkillsTemplate = ({ title, subtitle, skills = [], darkModePreference = nul
     { skill: "Signal Processing", proficiency: 75 }
   ];
 
-  const combinedSkills = skills.length > 0 ? skills : defaultSkills;
-
   return (
-    <section 
-      id="skills" 
-      className={`py-24 text-center relative overflow-hidden transition-colors duration-500 ease-in-out ${isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-blue-50 to-indigo-100'}`}
-    >
+    <section id="skills" className={`py-24 text-center relative overflow-hidden transition-colors duration-500 ease-in-out ${isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-blue-100 to-indigo-200'}`}>
       <div className="absolute top-0 left-0 w-full h-full">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <motion.path 
-            fill={isDarkMode ? '#1E40AF' : '#3B82F6'} 
-            fillOpacity="1" 
-            d="M0,160L48,165.3C96,171,192,181,288,154.7C384,128,480,64,576,74.7C672,85,768,171,864,202.7C960,235,1056,213,1152,181.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-            variants={backgroundVariants}
-            initial="hidden"
-            animate="visible"
-          />
+        <svg className="w-full h-full text-blue-300 dark:text-blue-900 opacity-50 transform -scale-x-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path fill="currentColor" fillOpacity="1" d="M0,160L48,138.7C96,117,192,75,288,69.3C384,64,480,96,576,128C672,160,768,192,864,186.7C960,181,1056,139,1152,133.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
       </div>
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -225,33 +181,29 @@ const SkillsTemplate = ({ title, subtitle, skills = [], darkModePreference = nul
           variants={titleVariants}
           initial="hidden"
           animate={titleControls}
-          className={`text-5xl font-black mb-12 inline-block relative ${isDarkMode ? 'text-blue-300' : 'text-blue-800'}`}
+          className={`text-5xl font-black mb-12 inline-block relative ${isDarkMode ? 'text-blue-300' : 'text-blue-900'}`}
         >
-          {title || 'My Skills Arsenal'}
+          My Skills Arsenal
           <motion.span 
             className={`absolute -bottom-2 left-0 w-full h-1.5 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-600'}`}
             initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, ease: cubicBezier(0.6, 0.05, -0.01, 0.9), delay: 0.5 }}
+            animate={{ scaleX: isLoaded ? 1 : 0 }}
+            transition={{ 
+              duration: 1.5, 
+              ease: cubicBezier(0.6, 0.05, -0.01, 0.9), 
+              delay: 1 
+            }}
           />
         </motion.h2>
-        <div className="flex flex-wrap justify-center -mx-4">
-          {combinedSkills.map((skill, index) => (
+        <div className="flex flex-wrap -mx-4">
+          {skillsData.map((skill, index) => (
             <SkillCard key={skill.skill} {...skill} index={index} />
           ))}
         </div>
-        <motion.p 
-          className={`mt-12 italic ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: cubicBezier(0.6, 0.05, -0.01, 0.9), delay: 1.5 }}
-        >
-          {subtitle || 'Always learning, always growing. The journey never ends.'}
-        </motion.p>
       </div>
       <button 
         onClick={() => setIsDarkMode(!isDarkMode)} 
-        className={`fixed bottom-4 right-4 p-3 rounded-full text-white transition-all duration-500 ease-in-out transform hover:scale-110 hover:rotate-12 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
+        className={`fixed bottom-4 right-4 p-3 rounded-full text-white transition-colors duration-300 ease-in-out ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
       >
         {isDarkMode ? '🌙' : '☀️'}
       </button>
@@ -259,4 +211,4 @@ const SkillsTemplate = ({ title, subtitle, skills = [], darkModePreference = nul
   );
 };
 
-export default SkillsTemplate;
+export default Skills;

@@ -122,8 +122,8 @@ const ExperienceTemplate = ({ title = 'Organizations', items = [], iconMap = {},
     { period: 'Sep 2023 – May 2024', title: 'Director of Sponsorship @ IEEE', description: 'Worked as a Director of Sponsorship at Institute of Electrical, Electronics Engineer (University of Engineering & Technology Lahore New Campus).' },
     { period: 'Sep 2023 – May 2024', title: 'Deputy Director of Media and Publicity @ LDS', description: 'Worked as a Deputy Director of Media and Publicity at Literary and Debate Society.' },
     { period: 'January 2023', title: 'Volunteer @ BDS', description: 'Worked as a Volunteer at Blood Donor Society.' },
-    { period: 'June 2021 – December 2021', title: 'Member @ XYZ Organization', description: 'Participated in community outreach and development projects.' },
-    { period: 'March 2020 – June 2020', title: 'Coordinator @ ABC Club', description: 'Coordinated events and activities, ensuring smooth operations and member engagement.' }
+    { period: 'December 2023 – May 2024', title: 'Member @ ACME', description: 'Participated in community outreach and development projects.' },
+    { period: 'March 2023 – March 2023', title: 'Campus Ambassador @ Peshawer University', description: 'Coordinated events and activities, ensuring smooth operations and member engagement.' }
   ];
 
   const experienceItems = items.length > 0 ? items : defaultItems;
