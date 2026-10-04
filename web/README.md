@@ -12,7 +12,9 @@ npm install
 npm run dev          # site on http://localhost:3000
 ```
 
-Admin panel: **http://localhost:3000/keystatic**
+Admin dashboard: **http://localhost:3000/admin** (local password: `admin`)
+
+Advanced editor (Keystatic): `/keystatic`, behind the same login.
 
 ## What you can change from the admin panel
 
@@ -31,12 +33,34 @@ Lower order number shows first.
 
 ## Add a paper in under 2 minutes
 
-1. Open `/keystatic` → Publications → **Add**.
+1. Open `/admin` → Publications, type the title, click **+ Add**.
 2. Fill in title, authors, venue, year and status. Pick the exact status.
 3. Save. The paper appears on `/publications`, and on the home page if
    "Show on home page" is ticked.
 
-## Editing the live site (after deploy)
+## Admin dashboard (/admin)
+
+- **Dashboard:** counts for every section, and what is hidden or featured.
+- **Lists:** drag ⋮⋮ to reorder (saves on drop), flip **Show** to hide or show, flip **Home** to put it on the home page, search, **+ Add** new items.
+- **Editor:** every field of every item, generated from the content file, so new fields appear automatically. Upload images, PDFs, videos and your CV. Lists inside items (results, stack, chips, nav links) can be added to, removed and reordered. Delete asks you to type DELETE.
+- **Site settings / Home page:** name, links, CV, nav, intro, chips, counters, research question, and which home sections show.
+
+### Make the admin save on the live site (Vercel)
+
+Set these in Vercel → Project → Settings → Environment Variables, then redeploy:
+
+| Name | Value |
+|---|---|
+| `ADMIN_PASSWORD` | a long password only you know |
+| `ADMIN_SECRET` | any random string |
+| `GITHUB_TOKEN` | a fine-grained GitHub token with **Contents: Read and write** on this repo only |
+| `GITHUB_REPO` | `Engr-Jalal-Saleem/Engr-Jalal-Saleem-portfolio` |
+| `GITHUB_BRANCH` | `main` |
+
+With these set, each Save commits to GitHub and Vercel redeploys in about a minute.
+Without `ADMIN_PASSWORD` in production, the admin refuses all logins.
+
+## Keystatic (advanced, optional)
 
 Locally, Keystatic writes straight to the files on disk, so you edit, then commit and push.
 

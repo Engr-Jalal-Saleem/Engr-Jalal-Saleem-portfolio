@@ -1,4 +1,5 @@
 import Reveal from "../../../components/Reveal";
+import SplitText from "../../../components/SplitText";
 import { getHome } from "../../../lib/content";
 
 export const metadata = { title: "Research", description: "Onboard autonomy for satellites, edge AI, trustworthy ML and vision." };
@@ -9,7 +10,7 @@ export default async function Research() {
     <div className="wrap">
       <header className="page-head">
         <span className="eyebrow">Research</span>
-        <h1 className="page">Fast decisions on <em>cheap hardware</em>, that you can trust</h1>
+        <SplitText as="h1" className="page" text="Fast decisions on cheap hardware, that you can" em="trust" />
       </header>
       <div className="research" style={{ paddingBottom: 88 }}>
         <Reveal className="interests">
