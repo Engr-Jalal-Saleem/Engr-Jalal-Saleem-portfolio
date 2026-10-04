@@ -28,7 +28,7 @@ export default function Nav({ links }: { links: { label: string; href: string }[
   };
 
   return (
-    <nav className={`nav${scrolled ? " sc" : ""}`}>
+    <nav className={`nav${scrolled ? " scrolled" : ""}`}>
       <div className="wrap">
         <Link className="logo" href="/">jalal<span>.</span>saleem</Link>
         <div className={`links${open ? " open" : ""}`}>

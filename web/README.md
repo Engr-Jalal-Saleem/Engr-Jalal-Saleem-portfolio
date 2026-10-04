@@ -1,6 +1,6 @@
 # Jalal Saleem · portfolio
 
-Next.js 15 + Framer Motion, with a Keystatic admin panel. All content lives in
+Next.js 15 + Framer Motion, with a password-protected admin panel at /admin. All content lives in
 `content/` as plain JSON and Markdoc files, so every edit is a Git commit you can
 see and undo.
 

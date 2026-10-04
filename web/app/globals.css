@@ -63,7 +63,7 @@ section.s { padding-block: 88px; border-top: 1px solid var(--line); }
 /* nav */
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding-top: env(safe-area-inset-top, 0px);
   background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .3s; }
-.nav.sc { border-color: var(--line); }
+.nav.scrolled { border-color: var(--line); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 58px; }
 .logo { font: 800 17px var(--f-display); color: var(--text); text-decoration: none; letter-spacing: -.02em; }
 .logo span { color: var(--amber); }
