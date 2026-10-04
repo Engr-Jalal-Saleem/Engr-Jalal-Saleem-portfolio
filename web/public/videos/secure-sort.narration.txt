@@ -1,0 +1,9 @@
+[000.0-004.0s] Secure Sort: two layers of defence for a factory line.
+[004.0-013.0s] A webcam watches every object on the belt.
+[013.0-020.0s] YOLO11n on a plain Core i3 knows three parts: box, comb, toothbrush.
+[020.0-027.0s] Anything else is unknown, and gets rejected.
+[027.0-036.0s] The sort command goes to an STM32 over a serial wire, encrypted with AES-128.
+[036.0-045.0s] An attacker on the wire injects a fake command.
+[045.0-052.0s] The HMAC check fails, so the STM32 drops it.
+[052.0-060.0s] 94% sorting success. 180 ms per object. Security adds 0.009 ms.
+[060.0-064.0s] IEEE PRAI 2026.

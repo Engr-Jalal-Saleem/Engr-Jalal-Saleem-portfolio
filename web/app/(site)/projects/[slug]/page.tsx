@@ -30,7 +30,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
       <div className="case">
         <div>
           {p.video ? (
-            <div className="video" style={{ marginBottom: 36 }}><video src={p.video} poster="/videos/pulse-explainer.jpg" controls preload="none" playsInline /></div>
+            <div className="video" style={{ marginBottom: 36 }}><video src={p.video} poster={p.video.replace(/\.mp4$/, ".jpg")} controls preload="none" playsInline /></div>
           ) : p.cover ? (
             <Reveal><div className="cover"><Image src={p.cover} alt={p.title} fill priority sizes="(max-width:880px) 100vw, 760px" /></div></Reveal>
           ) : null}
