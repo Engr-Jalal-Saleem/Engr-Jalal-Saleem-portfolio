@@ -1,0 +1,25 @@
+---
+title: "Beyond Random Flips"
+kicker: "ICASSP 2027 · AI"
+summary: "Stealthy, targeted label poisoning in federated learning."
+categories: ["ai", "research"]
+status: under-review
+cover: /images/projects/label-poisoning.webp
+video: ""
+role: "First author. Designed FBPLF, ran the CIFAR-10 and Fashion-MNIST experiments and the detector analysis."
+stack: ["PyTorch", "Federated learning", "FedAvg"]
+results: ["Errors concentrate on one semantic target (cat to dog, T-shirt to shirt)", "A cosine-similarity detector flags it less often than random flipping"]
+repo: "https://github.com/Engr-Jalal-Saleem/DL-Project-Label-Flipping"
+demo: null
+gallery: []
+featured: true
+order: 80
+visible: true
+---
+## The idea
+
+A cat labelled as a dog is believable. A cat labelled as a truck is not. FBPLF flips labels toward classes that sit close in feature space, so the poison looks like natural confusion.
+
+## Why it matters
+
+Defences that look for updates far from the crowd miss it, because the poisoned updates stay close to honest ones.

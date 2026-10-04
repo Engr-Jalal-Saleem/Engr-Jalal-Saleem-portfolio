@@ -1,0 +1,12 @@
+{
+  "role": "Computer Vision Intern",
+  "org": "Punjab Safe Cities Authority",
+  "location": "Lahore",
+  "mapPlace": "Lahore",
+  "start": "Jun 2024",
+  "end": "Aug 2024",
+  "description": "Traffic violation detection on live CCTV: helmets, seatbelts, tinted glass and number plates, feeding automatic tickets. Also an LLM chatbot for public questions.",
+  "minor": false,
+  "order": 40,
+  "visible": true
+}

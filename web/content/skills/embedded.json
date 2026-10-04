@@ -1,0 +1,14 @@
+{
+  "group": "Embedded",
+  "items": [
+    "STM32F407",
+    "Raspberry Pi",
+    "ESP32",
+    "USART",
+    "GSM",
+    "PLC / HMI",
+    "Butterworth and Chebyshev filters"
+  ],
+  "order": 30,
+  "visible": true
+}

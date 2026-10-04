@@ -1,0 +1,16 @@
+{
+  "title": "Real-Time and AI-Based Collision Detection and Avoidance System for Satellites",
+  "authors": "**J. Saleem** · supervised by F. A. Butt, co-supervised by A. Shoker",
+  "venue": "BS thesis · UET Lahore",
+  "year": 2026,
+  "status": "thesis",
+  "summary": "PULSE and Xplore, plus four machine learning models trained on the ESA Kelvins conjunction dataset.",
+  "keyResult": "XGBoost AUC 0.9648 vs 0.850 published benchmark",
+  "project": "pulse",
+  "link": "https://zenodo.org/records/21489422",
+  "pdf": null,
+  "bibtex": "",
+  "featured": true,
+  "order": 50,
+  "visible": true
+}

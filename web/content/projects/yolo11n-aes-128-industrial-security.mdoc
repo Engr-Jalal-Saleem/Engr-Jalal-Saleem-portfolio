@@ -1,0 +1,29 @@
+---
+title: "YOLO11n + AES-128 industrial security"
+kicker: "IEEE PRAI 2026 · EMBEDDED"
+summary: "A conveyor that rejects unknown objects, with a tamper-proof link to the STM32 that sorts them."
+categories: ["embedded", "vision", "research"]
+status: published
+cover: /images/projects/yolo-aes.webp
+video: ""
+role: "Second author. Built the vision model, the STM32 firmware and the secured serial link."
+stack: ["YOLO11n", "Python", "STM32F407", "AES-128-CTR", "HMAC-SHA256", "USART"]
+results: ["mAP@0.5 0.982, precision 0.983, recall 0.974", "94% sorting success at 180 ms end to end, 8 to 10 FPS on a Core i3", "Security adds 0.009 ms per command"]
+repo: null
+demo: null
+gallery: []
+featured: true
+order: 40
+visible: true
+---
+## The problem
+
+In a factory, the camera can be fooled by a wrong object, and the wire to the controller can be tampered with. Most systems only guard one of the two.
+
+## The approach
+
+YOLO11n on a plain CPU decides accept or reject. The command to the STM32 is encrypted with AES-128-CTR and signed with HMAC-SHA256, so a forged or replayed command is dropped.
+
+## What I'd do next
+
+Move inference onto an edge board and test against a live attacker on the bus.

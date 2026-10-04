@@ -1,0 +1,29 @@
+---
+title: "AI reverse vending machine"
+kicker: "FINAL YEAR · EMBEDDED"
+summary: "A recycling machine that sees bottles and cans with one camera, for a fraction of the usual cost."
+categories: ["embedded", "vision", "research"]
+status: prototype
+cover: /images/projects/reverse-vending.webp
+video: ""
+role: "First author. Built the dataset, trained and benchmarked the models, wrote the C# app and the STM32 control."
+stack: ["YOLO11n", "YOLOv12", "YOLO26", "C# / .NET", "STM32F407", "IR sensors"]
+results: ["mAP@0.5 0.993 on a 4,560-image in-situ dataset", "131.4 ms per frame, 40% faster and 44% more energy efficient than YOLO26 on the same CPU", "Whole build $1,087, 83% cheaper than the cheapest comparable commercial unit"]
+repo: null
+demo: null
+gallery: []
+featured: true
+order: 50
+visible: true
+---
+## The problem
+
+Commercial reverse vending machines cost $6,500 to $25,000 because they stack barcode scanners, spectrometers and weight sensors. That price keeps them out of countries like Pakistan.
+
+## The approach
+
+One camera and one detector replace the sensor stack. An IR trigger takes a still frame, YOLO11n classifies it, and the STM32 drives the sort or reject gate.
+
+## The surprise
+
+Newer is not faster. On a CPU, YOLO11n beat both YOLOv12 and YOLO26 on latency and energy.

@@ -1,0 +1,100 @@
+{
+  "eyebrow": "Electrical engineer · Visiting researcher, KAUST CyberSaR",
+  "intro": "I build AI that runs on real hardware, from satellites that dodge debris on their own to cameras that sort bottles on a factory line. Then I publish the research behind it.",
+  "introHighlight": "real hardware",
+  "chips": [
+    {
+      "strong": "2",
+      "rest": "published · 2 under review",
+      "visible": true
+    },
+    {
+      "strong": "Top 20",
+      "rest": "of 2,000+ · Saudi Space Agency DebriSolver",
+      "visible": true
+    },
+    {
+      "strong": "AUC 0.9648",
+      "rest": "on 162,634 real CDMs",
+      "visible": true
+    }
+  ],
+  "stats": [
+    {
+      "value": 162634,
+      "decimals": 0,
+      "prefix": "",
+      "suffix": "",
+      "label": "real CDMs used for training",
+      "visible": true
+    },
+    {
+      "value": 69,
+      "decimals": 0,
+      "prefix": "",
+      "suffix": "",
+      "label": "live conjunctions flagged by PULSE",
+      "visible": true
+    },
+    {
+      "value": 0.993,
+      "decimals": 3,
+      "prefix": "",
+      "suffix": "",
+      "label": "mAP@0.5, reverse vending machine",
+      "visible": true
+    },
+    {
+      "value": 83,
+      "decimals": 0,
+      "prefix": "",
+      "suffix": "%",
+      "label": "cheaper than commercial RVMs",
+      "visible": true
+    },
+    {
+      "value": 4233,
+      "decimals": 0,
+      "prefix": "",
+      "suffix": "",
+      "label": "satellite passes computed by Xplore in 24 h",
+      "visible": true
+    },
+    {
+      "value": 8,
+      "decimals": 0,
+      "prefix": "<",
+      "suffix": " min",
+      "label": "CDM delivery over ISL, down from ~90",
+      "visible": true
+    }
+  ],
+  "researchQuestion": "Can two satellites from different operators agree on who moves, in minutes, with no human in the loop, and prove the agreement was fair?",
+  "interests": [
+    {
+      "title": "Onboard autonomy for satellites",
+      "body": "Collision avoidance that runs in orbit, with cooperative manoeuvre agreement over inter-satellite links."
+    },
+    {
+      "title": "Edge AI on low-cost hardware",
+      "body": "CPU-only detection that meets real-time limits. Latency and energy, not just accuracy."
+    },
+    {
+      "title": "Trustworthy and secure ML",
+      "body": "Label poisoning in federated learning, and securing the link between a model and the machine it drives."
+    },
+    {
+      "title": "Vision for real-world monitoring",
+      "body": "Traffic, production lines and recycling, on live footage."
+    }
+  ],
+  "sections": [
+    "story",
+    "stats",
+    "research",
+    "publications",
+    "projects",
+    "certificates",
+    "contact"
+  ]
+}

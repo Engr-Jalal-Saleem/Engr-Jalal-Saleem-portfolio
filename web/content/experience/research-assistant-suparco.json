@@ -1,0 +1,12 @@
+{
+  "role": "Research Assistant",
+  "org": "SUPARCO, Satellite Control Facility",
+  "location": "Lahore",
+  "mapPlace": "Lahore",
+  "start": "Nov 2024",
+  "end": "Jan 2025",
+  "description": "Collision detection and tracking for geostationary satellites. Modelled trajectories to predict hazards.",
+  "minor": false,
+  "order": 30,
+  "visible": true
+}

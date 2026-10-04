@@ -1,0 +1,49 @@
+{
+  "name": "Jalal Saleem",
+  "headline": "Electrical engineer and researcher. Satellite collision avoidance, embedded AI, computer vision.",
+  "email": "jalalsaleem786@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/engr-jalal-saleem",
+  "github": "https://github.com/Engr-Jalal-Saleem",
+  "scholar": null,
+  "orcid": null,
+  "researchgate": null,
+  "cvFile": null,
+  "seekingNote": "Open to PhD positions starting 2027 in autonomy, edge AI and trustworthy ML.",
+  "nav": [
+    {
+      "label": "Story",
+      "href": "/story",
+      "visible": true
+    },
+    {
+      "label": "Research",
+      "href": "/research",
+      "visible": true
+    },
+    {
+      "label": "Publications",
+      "href": "/publications",
+      "visible": true
+    },
+    {
+      "label": "Projects",
+      "href": "/projects",
+      "visible": true
+    },
+    {
+      "label": "Experience",
+      "href": "/experience",
+      "visible": true
+    },
+    {
+      "label": "Certificates",
+      "href": "/certificates",
+      "visible": true
+    },
+    {
+      "label": "CV",
+      "href": "/cv",
+      "visible": true
+    }
+  ]
+}

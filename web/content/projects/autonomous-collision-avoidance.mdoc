@@ -1,0 +1,31 @@
+---
+title: "Autonomous collision avoidance"
+kicker: "KAUST · SPACE"
+summary: "Satellites that agree on a manoeuvre between themselves, without waiting for the ground."
+categories: ["space", "research"]
+status: published
+cover: /images/projects/collision-avoidance.webp
+video: "/videos/pulse-explainer.mp4"
+role: "First author. Designed the discovery and agreement protocol flow and ran the ISL latency analysis with the CyberSaR team."
+stack: ["Python", "SNS3", "SGP4", "CCSDS CDM"]
+results: ["CDM delivery over ISL in under 8 minutes, from about 90 via ground uplink", "Top 20 of 2,000+ in the Saudi Space Agency DebriSolver competition"]
+repo: null
+demo: null
+gallery: []
+featured: true
+order: 10
+visible: true
+---
+## The problem
+
+Today a conjunction warning goes from ground radar, to an analyst, to an operator, and back up to the satellite. That loop takes 24 to 72 hours. Mega-constellations already do thousands of manoeuvres, so the loop does not scale.
+
+## The approach
+
+The ground still flags the risk. Then the satellite takes over: it looks at the object with its own sensors, finds the other satellite over an inter-satellite link, and the two agree on who moves.
+
+The five steps are ground-to-orbit handover, onboard sensing, discovery, manoeuvre agreement, and the manoeuvre itself.
+
+## What I'd do next
+
+Test the agreement protocol under lossy links and with operators that do not fully trust each other.

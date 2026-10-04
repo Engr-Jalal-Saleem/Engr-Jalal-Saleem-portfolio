@@ -1,0 +1,15 @@
+{
+  "group": "AI and vision",
+  "items": [
+    "PyTorch",
+    "YOLO v8 to 26",
+    "XGBoost",
+    "LSTM",
+    "OCR / ANPR",
+    "Federated learning",
+    "RAG and LLM apps",
+    "Azure AI"
+  ],
+  "order": 20,
+  "visible": true
+}

@@ -1,0 +1,12 @@
+{
+  "role": "Application Engineer",
+  "org": "IndusLytics",
+  "location": "Lahore",
+  "mapPlace": "Lahore",
+  "start": "Dec 2024",
+  "end": "May 2025",
+  "description": "Vision plus embedded control for a PepsiCo plant, 96% detection on a live production line. GSM and Raspberry Pi remote monitoring for a fertilizer plant.",
+  "minor": false,
+  "order": 20,
+  "visible": true
+}
