@@ -1,5 +1,7 @@
 import Link from "next/link";
 import OrbitHero from "../../components/OrbitHero";
+import Portrait from "../../components/Portrait";
+import ParticleHero from "../../components/ParticleHero";
 import Reveal from "../../components/Reveal";
 import Counter from "../../components/Counter";
 import Magnetic from "../../components/Magnetic";
@@ -9,7 +11,7 @@ import Marquee from "../../components/Marquee";
 import SplitText from "../../components/SplitText";
 import PubList from "../../components/PubList";
 import CopyEmail from "../../components/CopyEmail";
-import { getSettings, getHome, getChapters, getPublications, getProjects, getCertificates, getSkills } from "../../lib/content";
+import { getSettings, getHome, getChapters, getPublications, getProjects, getCertificates, getSkills, getTheme } from "../../lib/content";
 import { toProj, toPub } from "../../lib/map";
 
 function Highlight({ text, mark }: { text: string; mark: string }) {
@@ -19,13 +21,13 @@ function Highlight({ text, mark }: { text: string; mark: string }) {
 }
 
 export default async function Home() {
-  const [s, h, chapters, pubs, projects, certs, skills] = await Promise.all([getSettings(), getHome(), getChapters(), getPublications(), getProjects(), getCertificates(), getSkills()]);
+  const [s, h, chapters, pubs, projects, certs, skills, theme] = await Promise.all([getSettings(), getHome(), getChapters(), getPublications(), getProjects(), getCertificates(), getSkills(), getTheme()]);
   const tools = skills.flatMap((g) => g.entry.items).slice(0, 18);
   const on = (k: string) => h.sections.includes(k as never);
   return (
     <>
       <header className="hero orbit">
-        <OrbitHero />
+        {theme.effects.globe3d ? <OrbitHero /> : <ParticleHero name={s.name} />}
         <div className="ov"><div className="wrap">
           <span className="eyebrow">{h.eyebrow}</span>
           <SplitText as="h1" className="hero-name" text={s.name.split(" ")[0] ?? s.name} em={s.name.split(" ").slice(1).join(" ")} />
@@ -47,7 +49,7 @@ export default async function Home() {
         </div></section>
       )}
 
-      <Marquee items={tools} />
+      {theme.effects.marquee && <Marquee items={tools} speed={theme.effects.marqueeSpeed} />}
 
       {on("story") && (
         <section className="s"><div className="wrap">
@@ -93,10 +95,13 @@ export default async function Home() {
       )}
 
       {on("contact") && (
-        <section className="s" id="contact"><div className="wrap" style={{ display: "grid", gap: 22 }}>
-          {s.seekingNote && <span className="eyebrow">{s.seekingNote}</span>}
-          <Reveal><p className="huge" data-cursor="HI">Working on autonomy, edge AI or <em>space?</em><br />Let&apos;s talk.</p></Reveal>
-          <CopyEmail email={s.email} />
+        <section className="s" id="contact"><div className="wrap about-row">
+          <Portrait src={s.photo} name={s.name} />
+          <div style={{ display: "grid", gap: 22, minWidth: 0 }}>
+            {s.seekingNote && <span className="eyebrow">{s.seekingNote}</span>}
+            <Reveal><p className="huge" data-cursor="HI">Working on autonomy, edge AI or <em>space?</em><br />Let&apos;s talk.</p></Reveal>
+            <CopyEmail email={s.email} />
+          </div>
         </div></section>
       )}
     </>

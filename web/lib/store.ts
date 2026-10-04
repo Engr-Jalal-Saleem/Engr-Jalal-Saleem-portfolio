@@ -28,11 +28,13 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
   experience: { label: "Experience", dir: "content/experience", ext: "json", titleKey: "role", group: "Work" },
   honors: { label: "Honors", dir: "content/honors", ext: "json", titleKey: "title", group: "Credentials" },
   certificates: { label: "Certificates", dir: "content/certificates", ext: "json", titleKey: "title", group: "Credentials" },
+  links: { label: "Tracked links", dir: "content/links", ext: "json", titleKey: "name", group: "Tracking" },
   skills: { label: "Skill groups", dir: "content/skills", ext: "json", titleKey: "group", group: "Credentials" },
 };
 export const SINGLETONS: Record<string, { label: string; file: string }> = {
   settings: { label: "Site settings", file: "content/settings.json" },
   home: { label: "Home page", file: "content/home.json" },
+  theme: { label: "Theme & effects", file: "content/theme.json" },
 };
 
 export type Item = { slug: string; data: Record<string, unknown>; body?: string };

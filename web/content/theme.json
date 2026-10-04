@@ -1,0 +1,37 @@
+{
+  "defaultMode": "dark",
+  "displayFont": "Bricolage Grotesque",
+  "bodyFont": "Bricolage Grotesque",
+  "monoFont": "JetBrains Mono",
+  "accentFont": "Newsreader",
+  "radius": 12,
+  "dark": {
+    "background": "#0f1f33",
+    "panel": "#16293f",
+    "deep": "#0a1626",
+    "accent": "#ffb347",
+    "accent2": "#5ec8e5",
+    "text": "#e7eef6",
+    "muted": "#9fb1c6",
+    "line": "#24405f"
+  },
+  "light": {
+    "background": "#f4f7fb",
+    "panel": "#ffffff",
+    "deep": "#e8eef5",
+    "accent": "#b86a00",
+    "accent2": "#0b6f8c",
+    "text": "#0f1f33",
+    "muted": "#4a5d74",
+    "line": "#cfd9e5"
+  },
+  "effects": {
+    "introCountdown": true,
+    "customCursor": true,
+    "smoothScroll": true,
+    "pageCurtain": true,
+    "globe3d": true,
+    "marquee": true,
+    "marqueeSpeed": 0.8
+  }
+}
