@@ -1,4 +1,5 @@
 import GroundTrack from "../../../components/GroundTrack";
+import SplitText from "../../../components/SplitText";
 import { getExperience, getHonors, getSkills } from "../../../lib/content";
 
 export const metadata = { title: "Experience", description: "KAUST, SUPARCO, IndusLytics, Punjab Safe Cities." };
@@ -22,7 +23,7 @@ export default async function Experience() {
     <div className="wrap" style={{ paddingBottom: 88 }}>
       <header className="page-head">
         <span className="eyebrow">Experience · ground track</span>
-        <h1 className="page">Where the signal <em>was acquired</em></h1>
+        <SplitText as="h1" className="page" text="Where the signal" em="was acquired" />
         <p className="lede">Scroll the list. The track follows you across the map.</p>
       </header>
       <GroundTrack stops={stops} />

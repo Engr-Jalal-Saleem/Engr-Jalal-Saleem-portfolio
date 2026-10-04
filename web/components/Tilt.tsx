@@ -29,7 +29,7 @@ export default function Tilt({ href, children }: { href: string; children: React
       whileHover={reduce ? undefined : { boxShadow: "0 30px 60px -25px rgba(0,0,0,.7)" }}
       className="tile-wrap"
     >
-      <Link href={href} className="tile">{children}<span className="glare" /></Link>
+      <Link href={href} className="tile" data-cursor="VIEW">{children}<span className="glare" /></Link>
     </motion.div>
   );
 }

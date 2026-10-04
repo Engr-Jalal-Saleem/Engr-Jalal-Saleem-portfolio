@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdoc from "@markdoc/markdoc";
 import React from "react";
-import Reveal from "../../../../components/Reveal";
+import Parallax from "../../../../components/Parallax";
+import SplitText from "../../../../components/SplitText";
 import { getProject, getProjects, STATUS_LABEL } from "../../../../lib/content";
 
 export async function generateStaticParams() {
@@ -24,7 +25,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
       <header className="page-head" style={{ paddingBottom: 28 }}>
         <Link className="more" href="/projects">← ALL PROJECTS</Link>
         <p className="eyebrow" style={{ marginTop: 18 }}>{p.kicker} · {STATUS_LABEL[p.status]}</p>
-        <h1 className="page">{p.title}</h1>
+        <SplitText as="h1" className="page" text={p.title} />
         <p className="lede">{p.summary}</p>
       </header>
       <div className="case">
@@ -32,7 +33,7 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
           {p.video ? (
             <div className="video" style={{ marginBottom: 36 }}><video src={p.video} poster={p.video.replace(/\.mp4$/, ".jpg")} controls preload="none" playsInline /></div>
           ) : p.cover ? (
-            <Reveal><div className="cover"><Image src={p.cover} alt={p.title} fill priority sizes="(max-width:880px) 100vw, 760px" /></div></Reveal>
+            <div style={{ marginBottom: 36 }}><Parallax src={p.cover} alt={p.title} /></div>
           ) : null}
           <div className="prose">{html}</div>
           {p.gallery.length > 0 && <div className="grid" style={{ marginTop: 32 }}>{p.gallery.map((g, i) => g && <div key={i} className="cover" style={{ margin: 0 }}><Image src={g} alt="" fill sizes="380px" /></div>)}</div>}

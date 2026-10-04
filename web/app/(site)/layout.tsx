@@ -1,4 +1,6 @@
 import Nav from "../../components/Nav";
+import Cursor from "../../components/Cursor";
+import Intro from "../../components/Intro";
 import { getSettings } from "../../lib/content";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -11,6 +13,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <Intro />
+      <Cursor />
       <Nav links={links} />
       <main>{children}</main>
       <footer className="f">

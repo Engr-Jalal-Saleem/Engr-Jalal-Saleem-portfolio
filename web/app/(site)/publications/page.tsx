@@ -1,4 +1,5 @@
 import PubList from "../../../components/PubList";
+import SplitText from "../../../components/SplitText";
 import { getPublications } from "../../../lib/content";
 import { toPub } from "../../../lib/map";
 
@@ -10,7 +11,7 @@ export default async function Pubs() {
     <div className="wrap" style={{ paddingBottom: 88 }}>
       <header className="page-head">
         <span className="eyebrow">Publications</span>
-        <h1 className="page">Papers, with <em>exact</em> status</h1>
+        <SplitText as="h1" className="page" text="Papers, with exact" em="status" />
         <p className="lede">Nothing here is upgraded. Under review means under review.</p>
       </header>
       <PubList items={p.map(toPub)} />

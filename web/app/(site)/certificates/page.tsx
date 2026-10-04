@@ -1,4 +1,5 @@
 import CertList from "../../../components/CertList";
+import SplitText from "../../../components/SplitText";
 import { getCertificates } from "../../../lib/content";
 import { toCert } from "../../../lib/map";
 
@@ -10,7 +11,7 @@ export default async function Certs() {
     <div className="wrap" style={{ paddingBottom: 88 }}>
       <header className="page-head">
         <span className="eyebrow">Certificates · {c.length}</span>
-        <h1 className="page">Every one, <em>verifiable</em></h1>
+        <SplitText as="h1" className="page" text="Every one," em="verifiable" />
         <p className="lede">Click any card to open the issuer&apos;s verify page.</p>
       </header>
       <CertList items={c.map(toCert)} />
