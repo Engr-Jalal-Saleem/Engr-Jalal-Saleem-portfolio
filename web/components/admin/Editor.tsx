@@ -29,6 +29,9 @@ const HINT: Record<string, string> = {
   introHighlight: "These exact words in the intro turn amber.",
   bibtex: "Paste the BibTeX. A button appears on the paper card.",
   link: "DOI, IEEE Xplore, Zenodo or any public link.",
+  date: "Format YYYY-MM-DD. Newest posts show first.",
+  draft: "Drafts are saved but not shown on the site.",
+  excerpt: "One or two sentences shown on the blog list.",
 };
 const human = (k: string) => k.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
 
@@ -139,7 +142,7 @@ export default function Editor({ kind, name, slug, data: init, body: initBody, v
     <form className="form" onSubmit={(e) => { e.preventDefault(); save(); }}>
       {Object.entries(data).map(([k, v]) => <Field key={k} k={k} v={v} set={set(k)} path={k} />)}
       {body !== undefined && (
-        <div className="fld"><label htmlFor="body">Case study text</label>
+        <div className="fld"><label htmlFor="body">{name === "posts" ? "Post text" : "Case study text"}</label>
           <textarea id="body" className="code" value={body} onChange={(e) => { setBody(e.target.value); setDirty(true); }} />
           <span className="hint">Markdown: ## for headings, **bold**, - for lists.</span></div>
       )}

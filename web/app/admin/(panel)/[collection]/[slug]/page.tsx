@@ -4,7 +4,7 @@ import Editor from "../../../../../components/admin/Editor";
 import { COLLECTIONS, getItem } from "../../../../../lib/store";
 
 const VIEW: Record<string, (s: string) => string> = {
-  projects: (s) => `/projects/${s}`, publications: () => "/publications", certificates: () => "/certificates",
+  projects: (s) => `/projects/${s}`, posts: (s) => `/blog/${s}`, publications: () => "/publications", certificates: () => "/certificates",
   experience: () => "/experience", honors: () => "/experience", skills: () => "/experience", chapters: () => "/story",
 };
 

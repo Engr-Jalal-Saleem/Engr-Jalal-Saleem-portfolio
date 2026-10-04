@@ -42,6 +42,10 @@ const norm = {
     ...base(d), title: str(d.title), issuer: str(d.issuer), issued: str(d.issued), credentialId: str(d.credentialId),
     url: nullable(d.url), file: nullable(d.file), category: str(d.category, "Professional"), featured: bool(d.featured, false),
   }),
+  posts: (d: Raw) => ({
+    ...base(d), title: str(d.title, "Untitled"), date: str(d.date), excerpt: str(d.excerpt), tags: arr(d.tags, (x) => str(x)).filter(Boolean),
+    cover: nullable(d.cover), featured: bool(d.featured, false), draft: bool(d.draft, false),
+  }),
   skills: (d: Raw) => ({ ...base(d), group: str(d.group), items: arr(d.items, (x) => str(x)).filter(Boolean) }),
 };
 type Norm = typeof norm;
@@ -83,6 +87,21 @@ export const getHonors = () => all("honors");
 export const getCertificates = () => all("certificates");
 export const getSkills = () => all("skills");
 export const getProjects = () => all("projects");
+
+/** Blog posts, newest first. Drafts are hidden. Reading time is counted from the body. */
+export async function getPosts() {
+  const items = await listItems("posts", false);
+  return items
+    .map((i) => ({ slug: i.slug, entry: norm.posts(i.data), minutes: Math.max(1, Math.ceil((i.body ?? "").split(/\s+/).length / 200)) }))
+    .filter((p) => p.entry.visible && !p.entry.draft)
+    .sort((a, b) => b.entry.date.localeCompare(a.entry.date));
+}
+export async function getPost(slug: string) {
+  const it = await getItem("posts", slug, false);
+  if (!it) return null;
+  const p = norm.posts(it.data);
+  return p.visible && !p.draft ? { ...p, body: it.body ?? "", minutes: Math.max(1, Math.ceil((it.body ?? "").split(/\s+/).length / 200)) } : null;
+}
 
 export async function getProject(slug: string) {
   const it = await getItem("projects", slug, false);

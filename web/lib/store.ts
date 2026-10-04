@@ -22,6 +22,7 @@ export const mode = GH ? "github" : "local";
 export type CollectionDef = { label: string; dir: string; ext: "json" | "mdoc"; titleKey: string; group: string };
 export const COLLECTIONS: Record<string, CollectionDef> = {
   chapters: { label: "Story chapters", dir: "content/chapters", ext: "json", titleKey: "title", group: "Story" },
+  posts: { label: "Blog posts", dir: "content/posts", ext: "mdoc", titleKey: "title", group: "Story" },
   publications: { label: "Publications", dir: "content/publications", ext: "json", titleKey: "title", group: "Work" },
   projects: { label: "Projects", dir: "content/projects", ext: "mdoc", titleKey: "title", group: "Work" },
   experience: { label: "Experience", dir: "content/experience", ext: "json", titleKey: "role", group: "Work" },
