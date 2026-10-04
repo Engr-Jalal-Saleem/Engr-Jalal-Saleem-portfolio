@@ -1,6 +1,7 @@
 import Nav from "../../components/Nav";
 import Cursor from "../../components/Cursor";
 import Intro from "../../components/Intro";
+import SmoothScroll from "../../components/SmoothScroll";
 import { getSettings } from "../../lib/content";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +14,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <SmoothScroll />
       <Intro />
       <Cursor />
       <Nav links={links} />
