@@ -18,8 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function Project({ params }: { params: Promise<{ slug: string }> }) {
   const p = await getProject((await params).slug);
   if (!p) notFound();
-  const { node } = p.body;
-  const html = Markdoc.renderers.react(Markdoc.transform(node as unknown as Parameters<typeof Markdoc.transform>[0]), React);
+  const html = Markdoc.renderers.react(Markdoc.transform(Markdoc.parse(p.body)), React);
   return (
     <div className="wrap" style={{ paddingBottom: 88 }}>
       <header className="page-head" style={{ paddingBottom: 28 }}>

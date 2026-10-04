@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ParticleHero from "../../components/ParticleHero";
+import OrbitHero from "../../components/OrbitHero";
 import Reveal from "../../components/Reveal";
 import Counter from "../../components/Counter";
 import Magnetic from "../../components/Magnetic";
@@ -24,10 +24,11 @@ export default async function Home() {
   const on = (k: string) => h.sections.includes(k as never);
   return (
     <>
-      <header className="hero">
-        <ParticleHero name={s.name} />
+      <header className="hero orbit">
+        <OrbitHero />
         <div className="ov"><div className="wrap">
           <span className="eyebrow">{h.eyebrow}</span>
+          <SplitText as="h1" className="hero-name" text={s.name.split(" ")[0] ?? s.name} em={s.name.split(" ").slice(1).join(" ")} />
           <p className="lede"><Highlight text={h.intro} mark={h.introHighlight} /></p>
           <div className="chips">{h.chips.filter((c) => c.visible).map((c, i) => <span key={i} className="chip"><b>{c.strong}</b> {c.rest}</span>)}</div>
           <div className="btns">

@@ -46,24 +46,65 @@ function serialize(item: { data: Record<string, unknown>; body?: string }, ext: 
   return `---\n${YAML.stringify(item.data).trimEnd()}\n---\n${item.body ?? ""}`;
 }
 
-export async function listItems(name: string): Promise<Item[]> {
+/* ---------- reads ----------
+ * On Vercel with a token, read straight from GitHub so admin saves show up in seconds
+ * without a rebuild. Responses are cached under the "content" tag; every admin save
+ * calls revalidateTag("content"). Locally, read the files on disk.
+ */
+async function ghList(dir: string): Promise<{ name: string; path: string }[]> {
+  const url = `https://api.github.com/repos/${GH!.repo}/contents/${[GH!.base, dir].filter(Boolean).join("/")}?ref=${GH!.branch}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${GH!.token}`, Accept: "application/vnd.github+json" }, next: { tags: ["content"], revalidate: 3600 } });
+  if (!res.ok) return [];
+  return res.json();
+}
+async function ghRead(rel: string): Promise<string | null> {
+  const url = `https://api.github.com/repos/${GH!.repo}/contents/${[GH!.base, rel].filter(Boolean).join("/")}?ref=${GH!.branch}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${GH!.token}`, Accept: "application/vnd.github.raw+json" }, next: { tags: ["content"], revalidate: 3600 } });
+  return res.ok ? res.text() : null;
+}
+/** Fresh reads for the admin (never cached), cached reads for the public site. */
+async function readText(rel: string, fresh = false): Promise<string | null> {
+  if (GH) {
+    if (fresh) {
+      const r = await gh("GET", rel).catch(() => null);
+      return r ? Buffer.from(r.content, "base64").toString("utf8") : null;
+    }
+    return ghRead(rel);
+  }
+  return fs.readFile(path.join(ROOT, rel), "utf8").catch(() => null);
+}
+async function listNames(dir: string, fresh = false): Promise<string[]> {
+  if (GH) {
+    if (fresh) {
+      const r = await gh("GET", dir).catch(() => null);
+      return Array.isArray(r) ? r.map((x: { name: string }) => x.name) : [];
+    }
+    return (await ghList(dir)).map((x) => x.name);
+  }
+  return fs.readdir(path.join(ROOT, dir)).catch(() => [] as string[]);
+}
+
+export async function listItems(name: string, fresh = true): Promise<Item[]> {
   const c = COLLECTIONS[name];
-  const files = await fs.readdir(path.join(ROOT, c.dir)).catch(() => [] as string[]);
-  const items = await Promise.all(files.filter((f) => f.endsWith("." + c.ext)).map(async (f) => {
-    const raw = await fs.readFile(path.join(ROOT, c.dir, f), "utf8");
-    return { slug: f.replace(/\.[^.]+$/, ""), ...parse(raw, c.ext) };
+  const files = (await listNames(c.dir, fresh)).filter((f) => f.endsWith("." + c.ext));
+  const items = await Promise.all(files.map(async (f) => {
+    const raw = await readText(`${c.dir}/${f}`, fresh);
+    if (raw === null) return null;
+    try { return { slug: f.replace(/\.[^.]+$/, ""), ...parse(raw, c.ext) }; } catch { return null; } // a broken file is skipped, never fatal
   }));
-  return items.sort((a, b) => Number(a.data.order ?? 100) - Number(b.data.order ?? 100));
+  return (items.filter(Boolean) as Item[]).sort((a, b) => Number(a.data.order ?? 100) - Number(b.data.order ?? 100));
 }
 
-export async function getItem(name: string, slug: string): Promise<Item | null> {
+export async function getItem(name: string, slug: string, fresh = true): Promise<Item | null> {
   const c = COLLECTIONS[name];
-  try { return { slug, ...parse(await fs.readFile(path.join(ROOT, c.dir, `${slug}.${c.ext}`), "utf8"), c.ext) }; }
-  catch { return null; }
+  const raw = await readText(`${c.dir}/${slug}.${c.ext}`, fresh);
+  if (raw === null) return null;
+  try { return { slug, ...parse(raw, c.ext) }; } catch { return null; }
 }
 
-export async function getSingleton(name: string) {
-  return JSON.parse(await fs.readFile(path.join(ROOT, SINGLETONS[name].file), "utf8")) as Record<string, unknown>;
+export async function getSingleton(name: string, fresh = true) {
+  const raw = await readText(SINGLETONS[name].file, fresh);
+  return (raw ? JSON.parse(raw) : {}) as Record<string, unknown>;
 }
 
 /* ---------- writes ---------- */
