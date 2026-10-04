@@ -1,6 +1,6 @@
 # Jalal Saleem · portfolio
 
-Next.js 15 + Framer Motion, with a Keystatic admin panel. All content lives in
+Next.js 15 + Framer Motion, with a password-protected admin panel at /admin. All content lives in
 `content/` as plain JSON and Markdoc files, so every edit is a Git commit you can
 see and undo.
 
@@ -14,7 +14,6 @@ npm run dev          # site on http://localhost:3000
 
 Admin dashboard: **http://localhost:3000/admin** (local password: `admin`)
 
-Advanced editor (Keystatic): `/keystatic`, behind the same login.
 
 ## What you can change from the admin panel
 
@@ -60,21 +59,6 @@ Set these in Vercel → Project → Settings → Environment Variables, then red
 With these set, each Save commits to GitHub and Vercel redeploys in about a minute.
 Without `ADMIN_PASSWORD` in production, the admin refuses all logins.
 
-## Keystatic (advanced, optional)
-
-Locally, Keystatic writes straight to the files on disk, so you edit, then commit and push.
-
-To edit directly on the live site:
-
-1. Deploy `web/` to Vercel (Root Directory = `web`).
-2. In Vercel, set `NEXT_PUBLIC_KEYSTATIC_STORAGE=github`.
-3. Open `https://<your-domain>/keystatic` and follow the prompt to create the
-   Keystatic GitHub App. It adds `KEYSTATIC_GITHUB_CLIENT_ID`,
-   `KEYSTATIC_GITHUB_CLIENT_SECRET` and `KEYSTATIC_SECRET` for you. Add those to Vercel too.
-4. From then on, every Save commits to GitHub and Vercel redeploys in about a minute.
-
-Only GitHub accounts with write access to the repo can log in.
-
 ## Structure
 
 ```
@@ -83,7 +67,7 @@ public/images     project and story images
 public/videos     explainer videos
 components/       animated pieces (particle hero, ground track, story rail, tilt cards)
 app/(site)/       pages
-keystatic.config.ts   admin panel schema
+lib/store.ts      admin read/write (local disk or GitHub)
 ```
 
 ## Analytics (/admin/analytics)
@@ -93,7 +77,17 @@ keystatic.config.ts   admin panel schema
 
 Tracked: page views, visitors, sessions, time on page, scroll depth, clicks (CV, papers, email, outside links),
 city/region/country (from Vercel's geo headers), device, OS, browser, language, screen size, referrer, UTM tags.
-Not stored: names, emails, IP addresses, cookies. Visitors with Do Not Track or Global Privacy Control are skipped.
+Not stored in analytics: names, emails, IP addresses, cookies. Visitors with Do Not Track or Global Privacy Control are skipped.
 
 **Tracked links:** admin → Tracked links → add one per person (for example `prof-lee-kaist`). Copy the link from
 the Analytics page and paste it in your email. You will see when they opened it, from where, what they read and clicked.
+
+## Security (/admin/security)
+
+- **Admin login:** constant-time password check, 5 attempts per 15 minutes per IP, then locked. HTTP-only, SameSite=strict cookie.
+- **Uploads:** only JPG, PNG, WebP, AVIF, GIF, PDF, MP4, WebM. No HTML, SVG or scripts.
+- **Rate limits:** tracking endpoint 120 requests per minute per IP, 4 KB max body.
+- **Headers:** Content Security Policy, HSTS, X-Frame-Options DENY, nosniff, strict referrer, Permissions-Policy.
+- **Security log:** failed logins, blocked requests and rejected uploads, with IP, kept 7 days then deleted automatically.
+- **DDoS:** handled by Vercel at the network edge. To block an IP: Vercel → project → Firewall → New Rule → IP Address → Deny.
+- **Dependencies:** `npm audit` clean (postcss pinned via `overrides`).

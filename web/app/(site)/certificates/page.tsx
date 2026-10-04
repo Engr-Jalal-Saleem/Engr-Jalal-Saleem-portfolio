@@ -3,7 +3,7 @@ import SplitText from "../../../components/SplitText";
 import { getCertificates } from "../../../lib/content";
 import { toCert } from "../../../lib/map";
 
-export const metadata = { title: "Certificates", description: "All certificates, each linked to the issuer's verify page." };
+export const metadata = { alternates: { canonical: "/certificates" }, title: "Certificates", description: "All certificates, each linked to the issuer's verify page." };
 
 export default async function Certs() {
   const c = await getCertificates();

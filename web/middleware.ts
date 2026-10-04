@@ -12,4 +12,4 @@ export async function middleware(req: NextRequest) {
   return NextResponse.redirect(url);
 }
 
-export const config = { matcher: ["/admin/:path*", "/keystatic/:path*", "/api/keystatic/:path*", "/api/admin/:path*"] };
+export const config = { matcher: ["/admin/:path*", "/api/admin/:path*"] };

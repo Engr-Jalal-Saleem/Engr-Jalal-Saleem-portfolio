@@ -1,6 +1,7 @@
 "use server";
 /** Server actions for the admin dashboard. Every action re-checks the session cookie. */
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { clientIp, logSecurity } from "../../lib/security";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { COOKIE, isValidToken } from "../../lib/auth";
@@ -80,13 +81,24 @@ export async function saveSettings(name: string, data: Record<string, unknown>) 
 }
 
 /** Upload a file into /public and return its public path. */
-export async function uploadFile(form: FormData) {
+export async function uploadFile(form: FormData): Promise<{ path?: string; error?: string }> {
   await guard();
   const f = form.get("file") as File | null;
-  const folder = String(form.get("folder") || "uploads").replace(/[^a-z0-9/_-]/gi, "");
-  if (!f || f.size === 0) throw new Error("No file");
-  if (f.size > 20 * 1024 * 1024) throw new Error("File is over 20 MB");
-  const name = f.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+  const folder = String(form.get("folder") || "uploads").replace(/[^a-z0-9/_-]/gi, "").replace(/\/{2,}/g, "/").replace(/^\/|\/$/g, "") || "uploads";
+  if (!f || f.size === 0) return { error: "No file chosen." };
+  if (f.size > 20 * 1024 * 1024) return { error: "That file is over 20 MB. Please compress it first." };
+  // Only safe, passive file types. HTML, SVG, JS etc. could run scripts on this domain.
+  const ALLOWED: Record<string, string[]> = {
+    jpg: ["image/jpeg"], jpeg: ["image/jpeg"], png: ["image/png"], webp: ["image/webp"], avif: ["image/avif"], gif: ["image/gif"],
+    pdf: ["application/pdf"], mp4: ["video/mp4"], webm: ["video/webm"],
+  };
+  const ext = (f.name.split(".").pop() ?? "").toLowerCase();
+  if (!ALLOWED[ext] || (f.type && !ALLOWED[ext].includes(f.type))) {
+    const h = await headers();
+    await logSecurity({ ip: clientIp(h), kind: "upload-rejected", path: `${folder}/${f.name}`.slice(0, 200), ua: h.get("user-agent") ?? undefined });
+    return { error: "Only JPG, PNG, WebP, AVIF, GIF, PDF, MP4 and WebM files are allowed." };
+  }
+  const name = f.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^\.+/, "");
   await writeRaw(`public/${folder}/${name}`, Buffer.from(await f.arrayBuffer()), `admin: upload ${folder}/${name}`);
   return { path: `/${folder}/${name}` };
 }

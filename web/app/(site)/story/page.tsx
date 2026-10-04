@@ -2,7 +2,7 @@ import StackCards from "../../../components/StackCards";
 import SplitText from "../../../components/SplitText";
 import { getChapters } from "../../../lib/content";
 
-export const metadata = { title: "Story", description: "How I got from a breadboard in Lahore to satellite collision avoidance." };
+export const metadata = { alternates: { canonical: "/story" }, title: "Story", description: "How I got from a breadboard in Lahore to satellite collision avoidance." };
 
 export default async function Story() {
   const ch = await getChapters();

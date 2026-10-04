@@ -3,7 +3,7 @@ import SplitText from "../../../components/SplitText";
 import { getProjects } from "../../../lib/content";
 import { toProj } from "../../../lib/map";
 
-export const metadata = { title: "Projects", description: "Space systems, embedded AI, computer vision and research builds." };
+export const metadata = { alternates: { canonical: "/projects" }, title: "Projects", description: "Space systems, embedded AI, computer vision and research builds." };
 
 export default async function Projects() {
   const p = await getProjects();

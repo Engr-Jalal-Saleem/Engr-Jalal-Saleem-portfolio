@@ -63,7 +63,7 @@ section.s { padding-block: 88px; border-top: 1px solid var(--line); }
 /* nav */
 .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding-top: env(safe-area-inset-top, 0px);
   background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .3s; }
-.nav.sc { border-color: var(--line); }
+.nav.scrolled { border-color: var(--line); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 58px; }
 .logo { font: 800 17px var(--f-display); color: var(--text); text-decoration: none; letter-spacing: -.02em; }
 .logo span { color: var(--amber); }
@@ -261,11 +261,11 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 .hp-static { display: grid; gap: 16px; padding-inline: 16px; }
 
 .sc-list { position: relative; padding-bottom: 20vh; }
-.sc-wrap { position: sticky; height: 72vh; display: flex; align-items: flex-start; }
-.sc { width: 100%; min-height: 56vh; display: grid; grid-template-columns: minmax(90px, 200px) 1fr; gap: 32px; align-content: start; padding: clamp(22px, 4vw, 48px); border-radius: 22px; border: 1px solid var(--line); background: var(--panel); background-image: linear-gradient(160deg, var(--panel), var(--deep)); box-shadow: 0 -20px 60px -30px rgba(0,0,0,.6); transform-origin: top center; position: relative; }
-.sc-yr { font: 800 clamp(48px, 8vw, 110px)/.9 var(--f-display); letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.5px var(--cyan); }
+.sc-wrap { position: sticky; height: 64vh; display: flex; align-items: flex-start; }
+.sc { width: 100%; min-height: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-content: start; padding: clamp(22px, 4vw, 48px); border-radius: 22px; border: 1px solid var(--line); background: var(--panel); background-image: linear-gradient(160deg, var(--panel), var(--deep)); box-shadow: 0 -20px 60px -30px rgba(0,0,0,.6); transform-origin: top center; position: relative; }
+.sc-yr { font: 800 clamp(44px, 7vw, 104px)/.9 var(--f-display); white-space: nowrap; font-variant-numeric: tabular-nums; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.5px var(--cyan); }
 .sc h3 { margin: 6px 0 10px; font: 800 clamp(26px, 3.6vw, 44px)/1.05 var(--f-display); letter-spacing: -.03em; }
-.sc p { margin: 0; color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); max-width: 58ch; }
+.sc p { margin: 0 0 28px; color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); max-width: 58ch; }
 .sc .pl { font: 600 11px var(--f-mono); color: var(--amber); letter-spacing: .12em; text-transform: uppercase; }
 .sc-idx { position: absolute; right: 22px; bottom: 18px; font: 11px var(--f-mono); color: var(--muted); }
 .sc.next { border-color: var(--amber); }
@@ -277,7 +277,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 .intro-k { font: 600 12px var(--f-mono); letter-spacing: .3em; color: var(--cyan); }
 
 .curtain { position: fixed; inset: 0; z-index: 1500; background: var(--amber); pointer-events: none; }
-.cover { overflow: hidden; }
+.cover { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
 
 /* ---------- 3D orbit hero ---------- */
 .hero.orbit { height: min(860px, 100svh); min-height: 640px; cursor: default; overflow: hidden; }
@@ -331,3 +331,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 .portrait-ph { position: absolute; inset: 0; display: grid; place-items: center; font: 800 clamp(40px, 6vw, 72px) var(--f-display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px var(--amber); }
 .about-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
 @media (max-width: 720px) { .about-row { grid-template-columns: 1fr; justify-items: start; } }
+
+/* keyboard users can jump past the nav */
+.skip{position:fixed;left:16px;top:-60px;z-index:1000;padding:10px 14px;background:var(--accent,#fff);color:#000;font:600 13px var(--mono,monospace);border-radius:6px;transition:top .2s}
+.skip:focus{top:16px}

@@ -12,7 +12,8 @@ export async function generateStaticParams() {
 }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await getProject((await params).slug);
-  return p ? { title: p.title, description: p.summary, openGraph: { images: p.cover ? [p.cover] : [] } } : {};
+  const slug = (await params).slug;
+  return p ? { title: p.title, description: p.summary, alternates: { canonical: `/projects/${slug}` }, openGraph: { images: p.cover ? [p.cover] : [] } } : {};
 }
 
 export default async function Project({ params }: { params: Promise<{ slug: string }> }) {

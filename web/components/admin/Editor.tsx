@@ -52,7 +52,7 @@ function Upload({ folder, onDone }: { folder: string; onDone: (p: string) => voi
       <input ref={ref} type="file" hidden onChange={(e) => {
         const f = e.target.files?.[0]; if (!f) return;
         const fd = new FormData(); fd.append("file", f); fd.append("folder", folder);
-        start(async () => { try { const r = await uploadFile(fd); onDone(r.path); toast("Uploaded " + r.path); } catch (err) { toast(String(err), true); } });
+        start(async () => { try { const r = await uploadFile(fd); if (r.error || !r.path) toast(r.error ?? "Upload failed.", true); else { onDone(r.path); toast("Uploaded " + r.path); } } catch { toast("Upload failed. Check your connection and try again.", true); } });
       }} />
       <button type="button" className="btn" disabled={busy} onClick={() => ref.current?.click()}>{busy ? "Uploading…" : "Upload file"}</button>
     </>
