@@ -2,7 +2,7 @@ import PostList from "../../../components/PostList";
 import SplitText from "../../../components/SplitText";
 import { getPosts } from "../../../lib/content";
 
-export const metadata = { title: "Blog", description: "Notes on satellites, edge AI and trustworthy ML, written in plain language." };
+export const metadata = { alternates: { canonical: "/blog" }, title: "Blog", description: "Notes on satellites, edge AI and trustworthy ML, written in plain language." };
 
 export default async function Blog() {
   const posts = await getPosts();

@@ -6,14 +6,18 @@ const display = Bricolage_Grotesque({ subsets: ["latin"], weight: ["400", "600",
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "600"], variable: "--nf-mono" });
 const serif = Newsreader({ subsets: ["latin"], style: ["italic"], weight: ["400"], variable: "--nf-serif" });
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { siteUrl } from "../lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE),
+  metadataBase: new URL(siteUrl()),
+  alternates: { canonical: "/", types: { "application/rss+xml": "/blog/rss.xml" } },
+  authors: [{ name: "Jalal Saleem" }],
+  keywords: ["Jalal Saleem", "satellite collision avoidance", "embedded AI", "edge AI", "computer vision", "electrical engineering", "research"],
   title: { default: "Jalal Saleem", template: "%s · Jalal Saleem" },
   description: "Electrical engineer and researcher. Satellite collision avoidance, embedded AI and computer vision.",
-  openGraph: { type: "website", siteName: "Jalal Saleem", images: ["/images/projects/collision-avoidance.webp"] },
-  twitter: { card: "summary_large_image" },
+  openGraph: { type: "website", siteName: "Jalal Saleem", locale: "en_US", images: [{ url: "/images/projects/collision-avoidance.webp", alt: "Jalal Saleem research" }] },
+  twitter: { card: "summary_large_image", images: ["/images/projects/collision-avoidance.webp"] },
+  robots: { index: true, follow: true, googleBot: { "max-image-preview": "large", "max-snippet": -1 } },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

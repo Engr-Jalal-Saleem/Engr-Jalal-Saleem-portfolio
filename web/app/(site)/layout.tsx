@@ -3,6 +3,7 @@ import Cursor from "../../components/Cursor";
 import Intro from "../../components/Intro";
 import SmoothScroll from "../../components/SmoothScroll";
 import Tracker from "../../components/Tracker";
+import { siteUrl } from "../../lib/site";
 import { getSettings, getTheme, themeCss, themeFontHrefs } from "../../lib/content";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const fx = t.effects;
   const links = s.nav.filter((l) => l.visible).map(({ label, href }) => ({ label, href }));
   const jsonLd = {
-    "@context": "https://schema.org", "@type": "Person", name: s.name, email: s.email, jobTitle: "Electrical engineer and researcher",
+    "@context": "https://schema.org", "@type": "Person", name: s.name, url: siteUrl(), image: s.photo ? siteUrl() + s.photo : undefined, email: s.email, jobTitle: "Electrical engineer and researcher",
     sameAs: [s.linkedin, s.github, s.scholar, s.orcid, s.researchgate].filter(Boolean),
   };
   return (
@@ -24,8 +25,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       {fx.smoothScroll && <SmoothScroll />}
       {fx.introCountdown && <Intro />}
       {fx.customCursor && <Cursor />}
+      <a href="#main" className="skip">Skip to content</a>
       <Nav links={links} />
-      <main>{children}</main>
+      <main id="main">{children}</main>
       <footer className="f">
         <div className="wrap">
           <span>© {new Date().getFullYear()} {s.name} · Visits are counted anonymously, with no cookies. IP addresses are kept only in security logs, for 7 days.</span>

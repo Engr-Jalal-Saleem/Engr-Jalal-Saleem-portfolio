@@ -2,7 +2,7 @@ import Reveal from "../../../components/Reveal";
 import SplitText from "../../../components/SplitText";
 import { getHome } from "../../../lib/content";
 
-export const metadata = { title: "Research", description: "Onboard autonomy for satellites, edge AI, trustworthy ML and vision." };
+export const metadata = { alternates: { canonical: "/research" }, title: "Research", description: "Onboard autonomy for satellites, edge AI, trustworthy ML and vision." };
 
 export default async function Research() {
   const h = await getHome();

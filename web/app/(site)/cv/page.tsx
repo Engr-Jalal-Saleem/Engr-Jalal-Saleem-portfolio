@@ -1,7 +1,7 @@
 import CopyEmail from "../../../components/CopyEmail";
 import { getSettings } from "../../../lib/content";
 
-export const metadata = { title: "CV" };
+export const metadata = { alternates: { canonical: "/cv" }, title: "CV" };
 
 export default async function CV() {
   const s = await getSettings();

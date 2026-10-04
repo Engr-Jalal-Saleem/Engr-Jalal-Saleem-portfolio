@@ -2,7 +2,7 @@ import GroundTrack from "../../../components/GroundTrack";
 import SplitText from "../../../components/SplitText";
 import { getExperience, getHonors, getSkills } from "../../../lib/content";
 
-export const metadata = { title: "Experience", description: "KAUST, SUPARCO, IndusLytics, Punjab Safe Cities." };
+export const metadata = { alternates: { canonical: "/experience" }, title: "Experience", description: "KAUST, SUPARCO, IndusLytics, Punjab Safe Cities." };
 
 export default async function Experience() {
   const [ex, hon, sk] = await Promise.all([getExperience(), getHonors(), getSkills()]);
