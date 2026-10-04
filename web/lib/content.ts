@@ -157,8 +157,9 @@ export function themeCss(t: Theme) {
   const vars = (p: Record<string, string>) =>
     `--bg:${p.background};--panel:${p.panel};--deep:${p.deep};--amber:${p.accent};--cyan:${p.accent2};--text:${p.text};--muted:${p.muted};--line:${p.line};--map:${p.deep};`;
   const NF: Record<string, string> = { "Bricolage Grotesque": "var(--nf-display)", "JetBrains Mono": "var(--nf-mono)", Newsreader: "var(--nf-serif)" };
-  const f = (name: string, fallback: string) => `${NF[name] ?? `"${name}"`}, ${fallback}`;
-  return `:root{${vars(t.dark)}color-scheme:dark;--f-display:${f(t.displayFont, "system-ui, sans-serif")};--f-body:${f(t.bodyFont, "system-ui, sans-serif")};--f-mono:${f(t.monoFont, "ui-monospace, monospace")};--f-serif:${f(t.accentFont, "Georgia, serif")};--radius:${t.radius}px}
+  // The bundled Newsreader is italic only, so it is used for the accent slot alone; other slots load it from Google.
+  const f = (name: string, fallback: string, accent = false) => `${name === "Newsreader" && !accent ? `"Newsreader"` : NF[name] ?? `"${name}"`}, ${fallback}`;
+  return `:root{${vars(t.dark)}color-scheme:dark;--f-display:${f(t.displayFont, "system-ui, sans-serif")};--f-body:${f(t.bodyFont, "system-ui, sans-serif")};--f-mono:${f(t.monoFont, "ui-monospace, monospace")};--f-serif:${f(t.accentFont, "Georgia, serif", true)};--radius:${t.radius}px}
 :root[data-theme="light"]{${vars(t.light)}color-scheme:light}
 body{font-family:var(--f-body)}
 .tile,.hp-card,.pub,.box,.cert,.int,.video,.cover,.mapbox,.job,.next-post{border-radius:var(--radius)}`;
@@ -167,11 +168,12 @@ body{font-family:var(--f-body)}
 const FONT_SPEC: Record<string, string> = {
   "Space Grotesk": "wght@400;600;700", "IBM Plex Sans": "wght@400;600;700", "Instrument Serif": "ital@0;1",
   "Playfair Display": "ital,wght@0,400;0,700;1,400", Fraunces: "ital,wght@0,400;0,700;1,400",
-  "IBM Plex Mono": "wght@400;600", "Space Mono": "wght@400;700", "Geist Mono": "wght@400;600",
+  "IBM Plex Mono": "wght@400;600", "Space Mono": "wght@400;700", Newsreader: "ital,wght@0,400;0,700;1,400", "Geist Mono": "wght@400;600",
 };
 const BUILT_IN = new Set(["Bricolage Grotesque", "JetBrains Mono", "Newsreader"]); // already loaded by next/font
 export function themeFontHrefs(t: Theme) {
+  const needsFullNewsreader = [t.displayFont, t.bodyFont, t.monoFont].includes("Newsreader");
   return Array.from(new Set([t.displayFont, t.bodyFont, t.monoFont, t.accentFont]))
-    .filter((n) => !BUILT_IN.has(n))
+    .filter((n) => !BUILT_IN.has(n) || (n === "Newsreader" && needsFullNewsreader))
     .map((n) => `https://fonts.googleapis.com/css2?family=${n.replace(/ /g, "+")}:${FONT_SPEC[n] ?? "wght@400;600;700;800"}&display=swap`);
 }
