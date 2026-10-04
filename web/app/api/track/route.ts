@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isBot, parseUA, record, type Ev } from "../../../lib/analytics";
+import { clientIp, geo, logSecurity, rateLimit } from "../../../lib/security";
 
 const s = (v: unknown, max = 300) => (typeof v === "string" ? v.slice(0, max) : undefined);
 const n = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? Math.round(v) : undefined);
@@ -8,8 +9,16 @@ const dec = (v: string | null) => { try { return v ? decodeURIComponent(v) : und
 export async function POST(req: Request) {
   const ua = req.headers.get("user-agent") ?? "";
   if (isBot(ua)) return new NextResponse(null, { status: 204 });
+  const ip = clientIp(req.headers);
+  // 120 events per minute per IP is far above any real visitor; beyond that it is spam
+  if (!(await rateLimit("track", ip, 120, 60))) {
+    if (await rateLimit("track-log", ip, 1, 300)) await logSecurity({ ip, kind: "rate-limited", path: "/api/track", ua, ...geo(req.headers) });
+    return new NextResponse(null, { status: 429 });
+  }
+  const raw = await req.text();
+  if (raw.length > 4000) return new NextResponse(null, { status: 413 });
   let b: Record<string, unknown>;
-  try { b = JSON.parse(await req.text()); } catch { return new NextResponse(null, { status: 400 }); }
+  try { b = JSON.parse(raw); } catch { return new NextResponse(null, { status: 400 }); }
   const type = b.type === "leave" || b.type === "click" ? b.type : "view";
   const ev: Ev = {
     t: Date.now(), type, path: s(b.path, 200) ?? "/", sid: s(b.sid, 40) ?? "", vid: s(b.vid, 40) ?? "", newVisitor: b.newVisitor === true,

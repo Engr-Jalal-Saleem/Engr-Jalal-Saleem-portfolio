@@ -5,9 +5,8 @@
  */
 import "server-only";
 
-const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-export const analyticsEnabled = Boolean(URL_ && TOKEN);
+import { redis, redisEnabled } from "./redis";
+export const analyticsEnabled = redisEnabled;
 const KEY = "jx:events";
 const MAX = 50000;
 
@@ -16,12 +15,6 @@ export type Ev = {
   ref?: string; refTag?: string; utm?: string; target?: string; label?: string; dur?: number; scroll?: number;
   country?: string; region?: string; city?: string; device?: string; os?: string; browser?: string; lang?: string; tz?: string; screen?: string;
 };
-
-async function redis(cmds: (string | number)[][]) {
-  const r = await fetch(`${URL_}/pipeline`, { method: "POST", headers: { Authorization: `Bearer ${TOKEN}` }, body: JSON.stringify(cmds), cache: "no-store" });
-  if (!r.ok) throw new Error(`Redis ${r.status}`);
-  return (await r.json()) as { result: unknown }[];
-}
 
 export async function record(ev: Ev) {
   if (!analyticsEnabled) return;

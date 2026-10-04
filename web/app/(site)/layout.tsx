@@ -15,7 +15,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       {themeFontHrefs(t).map((h) => <link key={h} rel="stylesheet" href={h} />)}
       <style dangerouslySetInnerHTML={{ __html: themeCss(t) + (fx.pageCurtain ? "" : ".curtain{display:none}") }} />
       {/* default theme for first-time visitors; a saved choice from the toggle wins */}
@@ -28,7 +28,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <main>{children}</main>
       <footer className="f">
         <div className="wrap">
-          <span>© {new Date().getFullYear()} {s.name} · This site counts visits anonymously. No cookies, no IP addresses stored.</span>
+          <span>© {new Date().getFullYear()} {s.name} · Visits are counted anonymously, with no cookies. IP addresses are kept only in security logs, for 7 days.</span>
           <span style={{ display: "flex", gap: 14 }}>
             {s.linkedin && <a href={s.linkedin}>LinkedIn</a>}
             {s.github && <a href={s.github}>GitHub</a>}

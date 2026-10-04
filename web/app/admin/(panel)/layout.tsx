@@ -24,7 +24,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           ))}
           <div className="grp" style={{ marginTop: "auto" }}><h6>Site</h6>
             <a href="/" target="_blank" rel="noreferrer">View site ↗</a>
-            <a href="/keystatic">Advanced editor</a>
+            <Link href="/admin/security">Security</Link>
             <SignOut />
             <span style={{ padding: "6px 10px" }}><span className={`badge ${mode}`}>{mode === "github" ? "Live · saves to GitHub" : "Local · saves to disk"}</span></span>
           </div>
