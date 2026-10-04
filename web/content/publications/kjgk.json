@@ -2,15 +2,15 @@
   "title": "kjgk",
   "authors": "",
   "venue": "",
-  "year": 0,
-  "status": "",
+  "year": 2026,
+  "status": "in-preparation",
   "summary": "",
   "keyResult": "",
   "project": "",
   "link": null,
   "pdf": null,
   "bibtex": "",
-  "featured": true,
+  "featured": false,
   "order": 60,
-  "visible": true
+  "visible": false
 }
