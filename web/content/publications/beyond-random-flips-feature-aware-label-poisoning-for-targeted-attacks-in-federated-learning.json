@@ -1,0 +1,16 @@
+{
+  "title": "Beyond Random Flips: Feature-Aware Label Poisoning for Targeted Attacks in Federated Learning",
+  "authors": "**J. Saleem**, U. Rashid, I. Javed, H. Anwaar",
+  "venue": "Submitted to IEEE ICASSP 2027",
+  "year": 2027,
+  "status": "under-review",
+  "summary": "An attacker flips labels toward classes that already look similar, like cat to dog. The damage lands on chosen classes and looks like natural confusion, so it is harder to catch.",
+  "keyResult": "Errors concentrate on one target class and get flagged less often than random flips",
+  "project": "beyond-random-flips",
+  "link": null,
+  "pdf": null,
+  "bibtex": "",
+  "featured": true,
+  "order": 30,
+  "visible": true
+}

@@ -1,0 +1,12 @@
+{
+  "role": "Visiting Research Student",
+  "org": "KAUST CyberSaR Lab · Prof. Ali Shoker",
+  "location": "Thuwal, Saudi Arabia",
+  "mapPlace": "Thuwal",
+  "start": "Jul 2025",
+  "end": "Jul 2026",
+  "description": "Autonomous collision detection and avoidance for LEO satellites. Built PULSE and Xplore, trained the conjunction models on 162,634 CDMs, and wrote the Space Debris Conference paper.",
+  "minor": false,
+  "order": 10,
+  "visible": true
+}

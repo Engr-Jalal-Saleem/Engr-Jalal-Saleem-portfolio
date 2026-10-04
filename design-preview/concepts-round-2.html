@@ -1,0 +1,234 @@
+<title>Jalal Saleem Concepts II</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz@1,6..72&display=swap">
+<style>
+/* Layout: three switchable full-bleed live heroes on a shared navy/amber/cyan mission palette. */
+:root{
+  --navy:#0F1F33;--deep:#0a1626;--panel:#16293F;--amber:#FFB347;--cyan:#5EC8E5;
+  --text:#E7EEF6;--muted:#9FB1C6;--line:#24405F;--red:#FF6B6B;--green:#7BE0A6;
+  --f-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  --f-serif:"Newsreader",Georgia,serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--navy);color:var(--text);font:15px/1.6 var(--f-display);margin:0}
+.wrap{padding-inline:16px;max-width:1180px;margin:0 auto}
+header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-block:18px}
+.brand{font:600 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:600 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--muted);border:1px solid var(--line);padding:8px 12px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--amber);color:var(--navy);border-color:var(--amber)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.note{color:var(--muted);font-size:13.5px;max-width:72ch;margin:0 0 14px}
+section.c{border:1px solid var(--line);border-radius:14px;overflow:hidden;position:relative;background:var(--deep);margin-bottom:28px}
+.why{padding:16px 22px;border-top:1px solid var(--line);background:var(--panel);display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.why p{margin:0;font-size:13.5px;color:var(--muted)}.why b{color:var(--text)}
+.eyebrow{font:600 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+
+/* D: Particle name */
+#D .stage{position:relative;height:560px;cursor:crosshair}
+#D canvas{position:absolute;inset:0;width:100%;height:100%}
+#D .ov{position:absolute;left:24px;right:24px;bottom:24px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;pointer-events:none}
+#D .ov p{margin:0;max-width:46ch;color:var(--muted);font-size:15px}
+#D .ov p em{font:italic 19px var(--f-serif);color:var(--text)}
+#D .hint{font:11px var(--f-mono);color:var(--amber);letter-spacing:.08em}
+#D .ctl{position:absolute;top:18px;right:18px;display:flex;gap:6px;flex-wrap:wrap}
+.pill{font:600 11px var(--f-mono);background:rgba(22,41,63,.85);color:var(--text);border:1px solid var(--line);padding:6px 10px;border-radius:6px;cursor:pointer}
+.pill:hover{border-color:var(--amber)}
+
+/* E: Ground track */
+#E .stage{position:relative;padding:28px 24px;display:grid;gap:18px}
+#E h1{font:800 clamp(34px,6vw,72px)/.95 var(--f-display);margin:0;letter-spacing:-.03em;max-width:15ch}
+#E h1 span{color:var(--amber)}
+.mapwrap{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#081321}
+#map{display:block;width:100%;height:auto;aspect-ratio:2/1;max-width:100%}
+.passes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.pass{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px;transition:border-color .3s,background .3s;font-variant-numeric:tabular-nums}
+.pass.on{border-color:var(--amber);background:rgba(255,179,71,.07)}
+.pass .k{font:600 10.5px var(--f-mono);color:var(--cyan);letter-spacing:.08em}
+.pass b{font:600 15px var(--f-display)}
+.pass span{font:11px var(--f-mono);color:var(--muted)}
+.scrub{display:flex;align-items:center;gap:10px;font:11px var(--f-mono);color:var(--muted);flex-wrap:wrap}
+.scrub input{flex:1;min-width:160px;accent-color:var(--amber)}
+
+/* F: Mission terminal */
+#F .stage{display:grid;grid-template-columns:1fr;min-height:540px}
+.term{font:13.5px/1.75 var(--f-mono);padding:22px;color:var(--text);min-width:0;overflow-x:auto}
+.term .p{color:var(--green)}.term .c{color:var(--cyan)}.term .a{color:var(--amber)}.term .m{color:var(--muted)}.term .r{color:var(--red)}
+.term .big{font:800 clamp(30px,6.5vw,66px)/1 var(--f-display);color:var(--text);margin:10px 0 4px;letter-spacing:-.02em;white-space:normal}
+.term .row{white-space:pre-wrap}
+.cursor{display:inline-block;width:.6em;height:1.1em;background:var(--amber);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.cmdbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 22px;border-top:1px solid var(--line);background:#0b1828}
+.cmdbar button{font:12px var(--f-mono);background:transparent;border:1px dashed var(--line);color:var(--cyan);padding:6px 10px;border-radius:6px;cursor:pointer}
+.cmdbar button:hover{border-style:solid;border-color:var(--cyan)}
+.cmdbar input{flex:1;min-width:150px;font:12.5px var(--f-mono);background:var(--deep);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Jalal Saleem · round two</div>
+    <div class="tabs" role="tablist" aria-label="Concepts">
+      <button role="tab" id="tD" data-t="D" aria-selected="true">D · Debris field</button>
+      <button role="tab" id="tE" data-t="E" aria-selected="false">E · Ground track</button>
+      <button role="tab" id="tF" data-t="F" aria-selected="false">F · Mission console</button>
+    </div>
+  </header>
+  <p class="note">Three new directions, different from round one. All use your real facts from the LinkedIn export and thesis. All are live: move the mouse, click, drag, type.</p>
+
+  <section class="c" id="D" role="tabpanel" aria-labelledby="tD">
+    <div class="stage" id="dstage">
+      <canvas id="pc" aria-label="Thousands of debris particles that assemble into the name Jalal Saleem"></canvas>
+      <div class="ctl">
+        <button class="pill" type="button" id="kessler">Trigger Kessler cascade</button>
+        <button class="pill" type="button" id="reform">Reassemble</button>
+      </div>
+      <div class="ov">
+        <p><em>Thousands of tracked objects. One rule: don't collide.</em><br>Electrical engineer. Visiting researcher at KAUST CyberSaR. I build collision avoidance for satellites and AI for factory floors.</p>
+        <span class="hint">MOVE CURSOR = YOUR SATELLITE · IT PUSHES DEBRIS AWAY</span>
+      </div>
+    </div>
+    <div class="why">
+      <p><b>The idea.</b> Your name is built from about 2,500 debris particles. They drift in from orbit and lock into the letters.</p>
+      <p><b>Crazy part.</b> The cursor is a satellite with a keep-out zone, so debris swerves around it. The Kessler button blows the name apart into a cascade, then it re-forms.</p>
+      <p><b>Best for.</b> The most memorable first five seconds. Use it as the hero, then switch to calm sections below.</p>
+    </div>
+  </section>
+
+  <section class="c" id="E" role="tabpanel" aria-labelledby="tE" hidden>
+    <div class="stage">
+      <span class="eyebrow">Xplore pass log · UTC</span>
+      <h1>My career as a <span>ground track.</span></h1>
+      <div class="mapwrap"><canvas id="map" aria-label="World map with a satellite ground track passing over Lahore, Thuwal and Beijing"></canvas></div>
+      <div class="scrub"><label for="tt">Scrub time</label><input id="tt" type="range" min="0" max="1000" value="0"><span id="ttv">T+00:00</span></div>
+      <div class="passes" id="passes">
+        <div class="pass" data-at="0.08"><span class="k">AOS · LAHORE</span><b>UET Lahore, BS EE</b><span>Dec 2022 to May 2026 · HEC merit scholar</span></div>
+        <div class="pass" data-at="0.30"><span class="k">AOS · LAHORE</span><b>SUPARCO · IndusLytics</b><span>GEO tracking · PepsiCo vision line, 96%</span></div>
+        <div class="pass" data-at="0.55"><span class="k">AOS · THUWAL</span><b>KAUST CyberSaR</b><span>PULSE · Xplore · AUC 0.9648</span></div>
+        <div class="pass" data-at="0.82"><span class="k">AOS · BEIJING</span><b>IEEE PRAI 2026</b><span>YOLO11n + AES-128 paper, Aug 2026</span></div>
+      </div>
+    </div>
+    <div class="why">
+      <p><b>The idea.</b> Xplore computes satellite passes. Here your life is the pass: a ground track sweeps the map and "acquires signal" over each place you worked.</p>
+      <p><b>Crazy part.</b> The track is a real sine-shaped ground track with a sun-lit terminator line. Scroll or scrub and each stop lights up as the satellite passes over.</p>
+      <p><b>Best for.</b> The Experience section. It makes a timeline people actually look at.</p>
+    </div>
+  </section>
+
+  <section class="c" id="F" role="tabpanel" aria-labelledby="tF" hidden>
+    <div class="stage">
+      <div class="term" id="term" aria-live="polite"></div>
+    </div>
+    <form class="cmdbar" id="cmdf" autocomplete="off">
+      <button type="button" data-c="whoami">whoami</button>
+      <button type="button" data-c="ls publications">ls publications</button>
+      <button type="button" data-c="cat pulse.log">cat pulse.log</button>
+      <button type="button" data-c="ls certs --top">ls certs --top</button>
+      <input id="cmd" aria-label="Type a command" placeholder="type: help">
+    </form>
+    <div class="why">
+      <p><b>The idea.</b> The site boots like a ground-station console. Visitors click or type commands to explore.</p>
+      <p><b>Crazy part.</b> A typed boot sequence, a live PULSE alert stream, and a real command line that responds.</p>
+      <p><b>Best for.</b> An Easter egg page or the 404. As the main homepage it's risky: professors skim, they don't type.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const tabs=[...document.querySelectorAll('[role=tab]')];
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.setAttribute('aria-selected',x===b));['D','E','F'].forEach(i=>document.getElementById(i).hidden=i!==b.dataset.t);if(b.dataset.t==='E')drawMap(+tt.value/1000);if(b.dataset.t==='F')boot();}));
+function fit(c){const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);c.width=r.width*d;c.height=r.height*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return[x,r.width,r.height]}
+
+/* ---------- D: particle name ---------- */
+(()=>{
+  const c=document.getElementById('pc'),st=document.getElementById('dstage');let x,W,H,P=[],mx=-999,my=-999,mode='form';
+  function targets(){
+    const o=document.createElement('canvas');o.width=W;o.height=H;const g=o.getContext('2d');
+    const fs=Math.min(W/5.6,150);g.fillStyle='#fff';g.font=`800 ${fs}px "Bricolage Grotesque",sans-serif`;g.textAlign='center';g.textBaseline='middle';
+    if(W<560){g.fillText('JALAL',W/2,H*.3);g.fillText('SALEEM',W/2,H*.3+fs*.95)}else{g.fillText('JALAL SALEEM',W/2,H*.38)}
+    const d=g.getImageData(0,0,W,H).data,t=[],step=W<560?4:5;
+    for(let y=0;y<H;y+=step)for(let xx=0;xx<W;xx+=step)if(d[(y*W+xx)*4+3]>128)t.push([xx,y]);
+    return t;
+  }
+  function init(){[x,W,H]=fit(c);const t=targets();P=t.map(([tx,ty])=>{const a=Math.random()*6.28,r=Math.max(W,H)*(.6+Math.random()*.5);return{x:W/2+Math.cos(a)*r,y:H/2+Math.sin(a)*r,vx:0,vy:0,tx,ty,hue:Math.random()<.12}});if(RM)P.forEach(p=>{p.x=p.tx;p.y=p.ty})}
+  document.fonts.ready.then(init);addEventListener('resize',()=>{clearTimeout(init.t);init.t=setTimeout(init,200)});
+  st.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+  st.addEventListener('pointerleave',()=>{mx=my=-999});
+  document.getElementById('kessler').onclick=()=>{mode='burst';P.forEach(p=>{const a=Math.atan2(p.y-H/2,p.x-W/2)+(Math.random()-.5);const s=4+Math.random()*9;p.vx=Math.cos(a)*s;p.vy=Math.sin(a)*s});setTimeout(()=>mode='form',2600)};
+  document.getElementById('reform').onclick=()=>mode='form';
+  function loop(){
+    x.fillStyle='rgba(10,22,38,.28)';x.fillRect(0,0,W,H);
+    if(mx>0){x.strokeStyle='rgba(94,200,229,.35)';x.setLineDash([3,5]);x.beginPath();x.arc(mx,my,60,0,7);x.stroke();x.setLineDash([]);x.fillStyle='#E7EEF6';x.fillRect(mx-4,my-4,8,8);x.fillStyle='#5EC8E5';x.fillRect(mx-15,my-2,9,4);x.fillRect(mx+6,my-2,9,4)}
+    for(const p of P){
+      if(mode==='form'){p.vx+=(p.tx-p.x)*.012;p.vy+=(p.ty-p.y)*.012}
+      const dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;if(d2<3600){const f=(3600-d2)/3600*2.2,d=Math.sqrt(d2)||1;p.vx+=dx/d*f;p.vy+=dy/d*f}
+      p.vx*=mode==='form'?.86:.985;p.vy*=mode==='form'?.86:.985;p.x+=p.vx;p.y+=p.vy;
+      const sp=Math.min(1,Math.hypot(p.vx,p.vy)/6);
+      x.fillStyle=p.hue?'#FFB347':sp>.5?'#FF6B6B':`rgba(${150+sp*90|0},${200-sp*40|0},229,.9)`;x.fillRect(p.x,p.y,1.8,1.8);
+    }
+    requestAnimationFrame(loop);
+  }
+  document.fonts.ready.then(()=>requestAnimationFrame(loop));
+})();
+
+/* ---------- E: ground track ---------- */
+const tt=document.getElementById('tt'),ttv=document.getElementById('ttv'),passes=[...document.querySelectorAll('.pass')];
+const LAND=[ // coarse continent outlines [lon,lat]
+ [[-168,66],[-140,70],[-95,72],[-62,60],[-55,47],[-80,25],[-97,18],[-80,8],[-105,20],[-125,40],[-130,55],[-168,66]],
+ [[-80,8],[-50,0],[-35,-8],[-40,-22],[-58,-38],[-70,-55],[-75,-40],[-72,-18],[-80,-2],[-80,8]],
+ [[-17,15],[-10,35],[10,37],[32,31],[43,12],[51,11],[40,-15],[32,-28],[20,-35],[12,-18],[9,4],[-17,15]],
+ [[-10,36],[-9,44],[-2,48],[5,58],[25,70],[60,70],[100,78],[140,72],[180,68],[160,58],[140,50],[122,40],[120,22],[108,10],[98,8],[80,8],[72,20],[57,25],[48,30],[35,36],[27,40],[12,44],[-10,36]],
+ [[115,-20],[130,-12],[145,-15],[153,-28],[146,-39],[135,-35],[115,-33],[115,-20]],
+ [[35,30],[43,12],[52,16],[56,24],[48,30],[35,30]]
+];
+const PLACES={Lahore:[74.3,31.5],Thuwal:[39.1,22.3],Beijing:[116.4,39.9]};
+function drawMap(t){
+  const c=document.getElementById('map');const[x,W,H]=fit(c);
+  const px=l=>(l+180)/360*W,py=a=>(90-a)/180*H;
+  x.fillStyle='#081321';x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(94,200,229,.07)';for(let i=-180;i<=180;i+=30){x.beginPath();x.moveTo(px(i),0);x.lineTo(px(i),H);x.stroke()}for(let i=-90;i<=90;i+=30){x.beginPath();x.moveTo(0,py(i));x.lineTo(W,py(i));x.stroke()}
+  x.fillStyle='#16293F';x.strokeStyle='#24405F';LAND.forEach(poly=>{x.beginPath();poly.forEach(([l,a],i)=>i?x.lineTo(px(l),py(a)):x.moveTo(px(l),py(a)));x.closePath();x.fill();x.stroke()});
+  // terminator shading
+  const sun=(t*720)%360-180;x.fillStyle='rgba(0,0,0,.35)';x.beginPath();for(let a=-90;a<=90;a+=3){const l=sun+90+20*Math.sin(a*Math.PI/180);x.lineTo(px(((l+540)%360)-180),py(a))}x.lineTo(px(180),H);x.lineTo(px(180),0);x.fill();
+  // ground track: path passes the three places in order
+  const way=[[-170,-30],[...PLACES.Lahore],[...PLACES.Thuwal],[...PLACES.Beijing],[175,20]];
+  const N=400,pts=[];for(let i=0;i<=N;i++){const u=i/N*(way.length-1),k=Math.min(way.length-2,u|0),f=u-k,e=f*f*(3-2*f);pts.push([way[k][0]+(way[k+1][0]-way[k][0])*f,way[k][1]+(way[k+1][1]-way[k][1])*e+Math.sin(u*Math.PI*2)*4])}
+  x.setLineDash([3,5]);x.strokeStyle='rgba(159,177,198,.35)';x.beginPath();pts.forEach(([l,a],i)=>i?x.lineTo(px(l),py(a)):x.moveTo(px(l),py(a)));x.stroke();x.setLineDash([]);
+  const m=Math.round(t*N);x.strokeStyle='#FFB347';x.lineWidth=2;x.shadowColor='#FFB347';x.shadowBlur=10;x.beginPath();pts.slice(0,m+1).forEach(([l,a],i)=>i?x.lineTo(px(l),py(a)):x.moveTo(px(l),py(a)));x.stroke();x.shadowBlur=0;x.lineWidth=1;
+  const [sl,sa]=pts[m];x.strokeStyle='rgba(94,200,229,.5)';x.beginPath();x.arc(px(sl),py(sa),W*.06,0,7);x.stroke();
+  x.fillStyle='#E7EEF6';x.fillRect(px(sl)-4,py(sa)-4,8,8);
+  x.font='600 11px JetBrains Mono, monospace';
+  Object.entries(PLACES).forEach(([n,[l,a]])=>{const near=Math.hypot(px(l)-px(sl),py(a)-py(sa))<W*.06;x.fillStyle=near?'#FFB347':'#5EC8E5';x.beginPath();x.arc(px(l),py(a),near?6:3.5,0,7);x.fill();x.fillText(n.toUpperCase(),px(l)+8,py(a)-8)});
+  passes.forEach(p=>p.classList.toggle('on',Math.abs(+p.dataset.at-t)<.12));
+  ttv.textContent='T+'+String(Math.floor(t*96)).padStart(2,'0')+':'+String(Math.floor(t*5760)%60).padStart(2,'0');
+}
+tt.addEventListener('input',()=>drawMap(tt.value/1000));
+let auto=0;(function spin(){if(!document.getElementById('E').hidden&&!RM&&document.activeElement!==tt){auto=(auto+2)%1000;tt.value=auto;drawMap(auto/1000)}requestAnimationFrame(spin)})();
+addEventListener('resize',()=>{if(!document.getElementById('E').hidden)drawMap(tt.value/1000)});
+
+/* ---------- F: terminal ---------- */
+const term=document.getElementById('term');let booted=false,busy=false;
+const OUT={
+ help:['<span class="m">commands: whoami · ls publications · cat pulse.log · ls certs --top · contact · clear</span>'],
+ whoami:['<div class="big">Jalal Saleem</div>','Electrical engineer, UET Lahore. Visiting researcher, <span class="a">KAUST CyberSaR</span>.','I build AI that runs on real hardware, from satellites to conveyor belts.'],
+ 'ls publications':['<span class="a">[PUBLISHED]</span>    Real-Time Autonomous Collision Avoidance of LEO Satellites · Space Debris Conf. 2026 · 1st author','<span class="a">[PUBLISHED]</span>    YOLO11n and AES-128: Dual-Layer Security for IIoT · IEEE PRAI 2026 · 2nd author','<span class="c">[UNDER REVIEW]</span> Beyond Random Flips · ICASSP 2027 · 1st author','<span class="c">[UNDER REVIEW]</span> CPU-Only Detection for Low-Cost Recycling · ICASSP 2027 · 1st author','<span class="m">[THESIS]</span>       zenodo.org/records/21489422'],
+ 'cat pulse.log':['<span class="m">demo replay · illustrative rows within the thesis ranges (Pc 1.07e-4 to 1.72e-3, miss 65 to 849 m)</span>','<span class="r">CRITICAL</span> Pc=1.72e-3  miss=65 m   TCA T-31h','<span class="a">WARNING </span> Pc=4.10e-4  miss=212 m  TCA T-49h','<span class="c">LOW     </span> Pc=1.07e-4  miss=849 m  TCA T-66h','<span class="m">summary: 69 conjunctions · 10 critical · 38 warning · 21 low</span>'],
+ 'ls certs --top':['Embedded Software & Hardware Architecture   CU Boulder','Computer Vision with Embedded ML            Edge Impulse','AI for Autonomous Vehicles & Robotics       U. Michigan','Cryptography & Information Theory           U. Colorado','<span class="m">… 39 more · /certificates</span>'],
+ contact:['email     jalalsaleem786@gmail.com','linkedin  linkedin.com/in/engr-jalal-saleem','github    github.com/Engr-Jalal-Saleem']
+};
+const sleep=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+async function typeLine(html,speed=8){const d=document.createElement('div');d.className='row';term.appendChild(d);if(RM||html.startsWith('<div')){d.innerHTML=html;return}
+  const tmp=document.createElement('div');tmp.innerHTML=html;const txt=tmp.textContent;for(let i=1;i<=txt.length;i+=2){d.textContent=txt.slice(0,i);await sleep(speed)}d.innerHTML=html;term.scrollTop=term.scrollHeight}
+async function run(cmd){if(busy)return;busy=true;cmd=cmd.trim();const cur=term.querySelector('.cursor');cur&&cur.remove();
+  await typeLine(`<span class="p">jalal@groundstation</span>:<span class="c">~</span>$ ${cmd.replace(/</g,'&lt;')}`,12);
+  if(cmd==='clear'){term.innerHTML=''}else{for(const l of(OUT[cmd]||[`<span class="r">command not found:</span> ${cmd.replace(/</g,'&lt;')} · try help`]))await typeLine(l)}
+  const c=document.createElement('span');c.className='cursor';term.appendChild(c);busy=false}
+async function boot(){if(booted)return;booted=true;
+  for(const l of['<span class="m">GS-LHR boot v2.6 · link budget OK · AES-128-CTR session up</span>','<span class="m">loading TLE catalogue … 1,000+ objects</span>','<span class="p">ready.</span>'])await typeLine(l,4);
+  await run('whoami')}
+document.querySelectorAll('.cmdbar button').forEach(b=>b.onclick=()=>run(b.dataset.c));
+document.getElementById('cmdf').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('cmd');if(i.value)run(i.value);i.value=''});
+</script>

@@ -1,0 +1,16 @@
+{
+  "title": "YOLO11n and AES-128: A Dual-Layer Physical and Communication Security Framework for Industrial IoT",
+  "authors": "A. M. Jamil, **J. Saleem**, T. Jan, N. Ahmad",
+  "venue": "IEEE PRAI 2026 · Beijing",
+  "year": 2026,
+  "status": "published",
+  "summary": "A camera rejects unknown objects on a conveyor, and the command to the STM32 travels over an encrypted, authenticated serial link. It all runs on a Core i3 with no GPU.",
+  "keyResult": "mAP@0.5 0.982 · 94% sorting success · 0.009 ms crypto overhead",
+  "project": "yolo11n-aes-128-industrial-security",
+  "link": null,
+  "pdf": null,
+  "bibtex": "",
+  "featured": true,
+  "order": 20,
+  "visible": true
+}

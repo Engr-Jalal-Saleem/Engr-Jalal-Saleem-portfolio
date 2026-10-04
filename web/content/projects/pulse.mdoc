@@ -1,0 +1,29 @@
+---
+title: "PULSE"
+kicker: "KAUST CYBERSAR · SPACE"
+summary: "Live conjunction monitoring: reads CDMs, classifies risk and alerts operators."
+categories: ["space", "ai"]
+status: deployed
+cover: /images/projects/pulse.webp
+video: "/videos/pulse-explainer.mp4"
+role: "Built the platform and the four ML models during my visiting research at KAUST CyberSaR. PULSE is now one of the agents in the lab's OrbitGuard platform."
+stack: ["Python", "XGBoost", "LSTM", "Space-Track API", "3D visualisation"]
+results: ["69 live conjunctions detected: 10 critical, 38 warning, 21 low", "XGBoost AUC-ROC 0.9648 vs 0.850 published Manhattan-LSTM benchmark", "Risk regressor explains 69% of variance in final Pc on 2,167 unseen events"]
+repo: null
+demo: null
+gallery: []
+featured: true
+order: 20
+visible: true
+---
+## The problem
+
+Operators get hundreds of conjunction warnings a week per satellite, and most are noise. Analysts still read them one by one.
+
+## The approach
+
+PULSE pulls CDMs from Space-Track, scores each event, and sorts it into critical, warning or low. Behind it are four models trained on 162,634 real CDMs from 13,154 events in the ESA Kelvins dataset. I split the data by event, not by message, so the test set never leaks.
+
+## What I'd do next
+
+Run it alongside a real operator's workflow and measure how many analyst hours it saves.

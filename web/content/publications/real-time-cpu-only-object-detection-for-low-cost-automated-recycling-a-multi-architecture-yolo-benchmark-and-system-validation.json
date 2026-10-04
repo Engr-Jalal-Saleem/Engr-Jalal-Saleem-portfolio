@@ -1,0 +1,16 @@
+{
+  "title": "Real-Time CPU-Only Object Detection for Low-Cost Automated Recycling: A Multi-Architecture YOLO Benchmark and System Validation",
+  "authors": "**J. Saleem**, F. A. Butt",
+  "venue": "Submitted to IEEE ICASSP 2027",
+  "year": 2027,
+  "status": "under-review",
+  "summary": "A fully built reverse vending machine with one camera and one CPU instead of a costly sensor stack. Newer YOLO versions were not faster on this hardware.",
+  "keyResult": "131.4 ms per frame · 40% faster than YOLO26 · $1,087 build",
+  "project": "ai-reverse-vending-machine",
+  "link": null,
+  "pdf": null,
+  "bibtex": "",
+  "featured": true,
+  "order": 40,
+  "visible": true
+}

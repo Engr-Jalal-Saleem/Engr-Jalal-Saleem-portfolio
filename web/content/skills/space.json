@@ -1,0 +1,12 @@
+{
+  "group": "Space",
+  "items": [
+    "CDMs",
+    "TLE and SGP4",
+    "Conjunction assessment",
+    "Pass prediction",
+    "SNS3 ISL simulation"
+  ],
+  "order": 40,
+  "visible": true
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Real-Time Autonomous Collision Avoidance of LEO Satellites",
+  "authors": "**J. Saleem**, I. Gouveia, H. J. Hadi, R. Yasmin, A. Shoker",
+  "venue": "Space Debris Conference 2026 · Saudi Space Agency · Riyadh",
+  "year": 2026,
+  "status": "published",
+  "summary": "Collision avoidance today waits on ground analysts and stale data. We propose discovery and agreement protocols so satellites can coordinate a manoeuvre themselves over inter-satellite links.",
+  "keyResult": "ISL relay cuts CDM delivery from about 90 minutes to under 8",
+  "project": "autonomous-collision-avoidance",
+  "link": null,
+  "pdf": null,
+  "bibtex": "",
+  "featured": true,
+  "order": 10,
+  "visible": true
+}
