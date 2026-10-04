@@ -277,7 +277,7 @@ html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 .intro-k { font: 600 12px var(--f-mono); letter-spacing: .3em; color: var(--cyan); }
 
 .curtain { position: fixed; inset: 0; z-index: 1500; background: var(--amber); pointer-events: none; }
-.cover { overflow: hidden; }
+.cover { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
 
 /* ---------- 3D orbit hero ---------- */
 .hero.orbit { height: min(860px, 100svh); min-height: 640px; cursor: default; overflow: hidden; }
