@@ -1,0 +1,40 @@
+---
+title: "Cat to dog: why smart poisoning is harder to catch than random poisoning"
+date: "2026-09-26"
+excerpt: In federated learning, an attacker who flips labels at random gets caught. An attacker who flips them toward look-alike classes mostly does not.
+tags: ["Trustworthy ML", "Security"]
+cover: /images/projects/label-poisoning.webp
+featured: false
+draft: false
+order: 30
+visible: true
+---
+Federated learning lets many phones or devices train one shared model without sending their data to a server. Each device trains locally and only sends back an update.
+
+That privacy has a cost. The server never sees the data, so it cannot check whether the labels are honest.
+
+## The usual attack
+
+The classic attack is label flipping. A bad client changes some of its labels at random. A cat becomes a truck. A shirt becomes a sneaker.
+
+It hurts the model, but it is loud. Random flips push the update in strange directions, and many defences are built to spot exactly that.
+
+## A quieter version
+
+My co-authors and I asked a different question. What if the attacker flipped labels toward classes that already look alike?
+
+A cat labelled as a dog is believable. A cat labelled as a truck is not.
+
+Our method, FBPLF, measures how close each class is in feature space and flips each label toward its nearest neighbours. We tested it on CIFAR-10 and Fashion-MNIST with 50 clients over 100 rounds.
+
+## What happened
+
+At the heaviest poisoning level on CIFAR-10, random flipping crushed the model to **2.15 percent** accuracy. FBPLF left it at **14.9 percent**.
+
+That sounds like the random attack is stronger. It is, if your only goal is to break everything. But broken models get noticed.
+
+FBPLF does something more dangerous. It pushes the errors onto one target. Cats turn into dogs. T-shirts turn into shirts. And a cosine-similarity detector flagged it less often than random flipping, because its updates stay close to honest ones.
+
+> The most dangerous attack is not the loudest one. It is the one that looks like a normal mistake.
+
+This paper is under review at IEEE ICASSP 2027. The code is on my GitHub.

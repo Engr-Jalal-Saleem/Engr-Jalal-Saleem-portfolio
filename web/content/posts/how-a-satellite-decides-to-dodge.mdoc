@@ -1,0 +1,44 @@
+---
+title: How a satellite decides to dodge, without waiting for the ground
+date: "2026-08-30"
+excerpt: Today a collision warning takes up to three days to turn into a manoeuvre. Here is the idea behind letting satellites settle it between themselves.
+tags: ["Space", "Autonomy"]
+cover: /images/projects/collision-avoidance.webp
+featured: true
+draft: false
+order: 20
+visible: true
+---
+Low Earth orbit is getting crowded. Every close approach between two objects produces a warning called a Conjunction Data Message, or CDM.
+
+Here is how that warning is handled today. Ground radar spots the risk. An analyst reads the CDM. The operators talk. A command goes back up to the satellite. That loop takes **24 to 72 hours**.
+
+With thousands of new satellites going up, that loop does not scale.
+
+## The idea
+
+At KAUST CyberSaR we asked: what if the satellites did most of this themselves?
+
+The ground still raises the first alarm. Then the satellite takes over in five steps.
+
+1. **Handover.** The ground sends its warning and best estimate.
+2. **Onboard sensing.** The satellite looks at the object with its own sensors to confirm the risk.
+3. **Discovery.** It finds the other satellite over an inter-satellite link.
+4. **Agreement.** The two agree who moves.
+5. **Manoeuvre.** One of them burns. The risk clears.
+
+## Does the message get there in time?
+
+Step 3 only works if information moves fast. So we simulated forwarding CDMs through inter-satellite links using the SNS3 network simulator.
+
+In the worst case geometry we tested, delivery dropped from **about 90 minutes** through the ground to **under 8 minutes** through the constellation.
+
+## The tool behind it
+
+I also built PULSE, a monitor that reads live CDMs and sorts them by risk. In one monitoring period it flagged **69 active conjunctions**: 10 critical, 38 warning and 21 low.
+
+Behind it are models trained on 162,634 real CDMs from the ESA Kelvins dataset. The best classifier reached an **AUC of 0.9648**, against 0.850 for the published benchmark. I split the data by event, not by message, so no event leaks into the test set.
+
+> The hard question is not the physics. It is how two machines from different operators agree, quickly and fairly.
+
+That is the question I want to spend my PhD on.

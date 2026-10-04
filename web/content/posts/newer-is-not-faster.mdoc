@@ -1,0 +1,45 @@
+---
+title: Newer is not faster. What a recycling machine taught me about YOLO
+date: "2026-09-28"
+excerpt: I benchmarked three YOLO generations on a plain CPU inside a real recycling machine. The oldest one won on speed and energy.
+tags: ["Edge AI", "Computer vision"]
+cover: /images/projects/reverse-vending.webp
+featured: true
+draft: false
+order: 10
+visible: true
+---
+A reverse vending machine takes your empty bottle and gives you a small refund. In Norway and Germany these machines push recycling rates above 90 percent. In Pakistan you almost never see one.
+
+The reason is price. A commercial unit costs between $6,500 and $25,000. Most of that money goes into sensors: barcode scanners, infrared spectrometers, weight and metal detectors.
+
+So for my final year project I asked a simple question. Can one camera and one cheap CPU do the same job?
+
+## The build
+
+The machine has a camera, IR sensors that stop the bottle in front of the lens, a C# touchscreen app, and an STM32F407 that drives the sorting servos. No GPU anywhere.
+
+I trained YOLO11n on 4,560 photos I took inside the machine itself. On the held-out test set it reached **mAP@0.5 of 0.993**, with precision 0.970 and recall 0.992.
+
+The whole system cost **$1,087**. That is 83 percent less than the cheapest comparable commercial unit.
+
+## The surprise
+
+Accuracy was not the hard part. Speed on a CPU was.
+
+I ran three generations of YOLO on the same machine, on 2,247 real frames, and measured latency, CPU load and energy per detection.
+
+| Model | Latency | Energy per detection |
+|---|---|---|
+| YOLO11n | 131.4 ms | 3,211.8 mJ |
+| YOLO26 | about 40% slower | about 44% more energy |
+
+The newest model lost. On a cheap CPU, newer architecture did not mean faster. It meant more work per frame.
+
+> If your hardware is fixed, benchmark on that hardware. Leaderboards are measured on GPUs you will never ship.
+
+## What I would do next
+
+Test the same comparison on an ARM board, since that is what a real low-cost product would use.
+
+This work is under review at IEEE ICASSP 2027.

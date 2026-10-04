@@ -36,6 +36,11 @@
       "visible": true
     },
     {
+      "label": "Blog",
+      "href": "/blog",
+      "visible": true
+    },
+    {
       "label": "Certificates",
       "href": "/certificates",
       "visible": true
