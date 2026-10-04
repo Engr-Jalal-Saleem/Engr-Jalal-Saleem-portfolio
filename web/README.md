@@ -85,3 +85,15 @@ components/       animated pieces (particle hero, ground track, story rail, tilt
 app/(site)/       pages
 keystatic.config.ts   admin panel schema
 ```
+
+## Analytics (/admin/analytics)
+
+1. Vercel → project → **Storage** → **Create Database** → **Upstash for Redis** (free) → connect to this project.
+2. Redeploy. Vercel adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` for you.
+
+Tracked: page views, visitors, sessions, time on page, scroll depth, clicks (CV, papers, email, outside links),
+city/region/country (from Vercel's geo headers), device, OS, browser, language, screen size, referrer, UTM tags.
+Not stored: names, emails, IP addresses, cookies. Visitors with Do Not Track or Global Privacy Control are skipped.
+
+**Tracked links:** admin → Tracked links → add one per person (for example `prof-lee-kaist`). Copy the link from
+the Analytics page and paste it in your email. You will see when they opened it, from where, what they read and clicked.

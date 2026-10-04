@@ -10,7 +10,9 @@ import { saveEntry, saveSettings, uploadFile, deleteEntry } from "../../app/admi
 import { useToast } from "./Toast";
 
 type V = unknown;
+const FONTS = ["Bricolage Grotesque", "Space Grotesk", "Sora", "Syne", "Unbounded", "Archivo", "Manrope", "Outfit", "Plus Jakarta Sans", "Inter Tight", "DM Sans", "IBM Plex Sans", "Fraunces", "Playfair Display", "Instrument Serif", "Newsreader", "JetBrains Mono", "IBM Plex Mono", "Space Mono", "Geist Mono"];
 const SELECT: Record<string, string[]> = {
+  defaultMode: ["dark", "light"], displayFont: FONTS, bodyFont: FONTS, monoFont: FONTS, accentFont: FONTS,
   status: ["published", "accepted", "under-review", "in-preparation", "thesis", "deployed", "prototype", "built", "employer", "concept"],
   category: ["AI & ML", "Embedded & IoT", "Security", "Cloud & Data", "Research", "Professional"],
   mapPlace: ["Lahore", "Thuwal", "Beijing", "Riyadh", "Faisalabad", "Karachi", "none"],
@@ -19,7 +21,7 @@ const MULTI: Record<string, string[]> = {
   categories: ["space", "embedded", "vision", "ai", "research", "concept"],
   sections: ["story", "stats", "research", "publications", "projects", "certificates", "contact"],
 };
-const FILES: Record<string, string> = { cover: "images/projects", image: "images/story", file: "certificates", cvFile: "files", pdf: "papers", gallery: "images/projects", video: "videos" };
+const FILES: Record<string, string> = { cover: "images/projects", image: "images/story", file: "certificates", cvFile: "files", photo: "images", pdf: "papers", gallery: "images/projects", video: "videos" };
 const HINT: Record<string, string> = {
   authors: "Wrap your own name in **double stars** to make it bold.",
   visible: "Untick to hide from the site without deleting.",
@@ -30,6 +32,12 @@ const HINT: Record<string, string> = {
   bibtex: "Paste the BibTeX. A button appears on the paper card.",
   link: "DOI, IEEE Xplore, Zenodo or any public link.",
   date: "Format YYYY-MM-DD. Newest posts show first.",
+  radius: "Corner roundness in pixels, 0 to 32.",
+  marqueeSpeed: "0 stops it. 0.8 is calm. 2 is fast.",
+  defaultMode: "What first-time visitors see. Their own toggle choice still wins.",
+  accent: "Main highlight colour (buttons, italic words).",
+  accent2: "Second highlight colour (labels, links, globe).",
+  photo: "A square, professional headshot works best.",
   draft: "Drafts are saved but not shown on the site.",
   excerpt: "One or two sentences shown on the blog list.",
 };
@@ -58,6 +66,12 @@ function Field({ k, v, set, path }: { k: string; v: V; set: (v: V) => void; path
   );
   if (typeof v === "boolean") return (
     <div className="fld"><span className="swl" style={{ fontSize: 12 }}><button id={id} type="button" className="sw" role="switch" aria-checked={v} onClick={() => set(!v)} /> {human(k)}</span>{HINT[k] && <span className="hint">{HINT[k]}</span>}</div>
+  );
+  if (typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v)) return wrap(
+    <div className="tools" style={{ margin: 0 }}>
+      <input id={id} type="color" value={v} onChange={(e) => set(e.target.value)} style={{ width: 54, height: 38, padding: 2, background: "transparent", border: "1px solid var(--line)", borderRadius: 8 }} />
+      <input type="text" value={v} onChange={(e) => set(e.target.value)} style={{ maxWidth: 120, fontFamily: "var(--f-mono)" }} aria-label={`${k} hex`} />
+    </div>
   );
   if (typeof v === "number" || k === "order" || k === "year" || k === "decimals" || k === "value") return wrap(
     <input id={id} type="number" step="any" value={v === null || v === undefined ? "" : String(v)} onChange={(e) => set(e.target.value === "" ? null : Number(e.target.value))} style={{ maxWidth: 200 }} />

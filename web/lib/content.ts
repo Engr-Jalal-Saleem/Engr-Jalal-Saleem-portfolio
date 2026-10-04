@@ -63,7 +63,7 @@ export async function getSettings() {
   return {
     name: str(d.name, "Jalal Saleem"), headline: str(d.headline), email: str(d.email),
     linkedin: nullable(d.linkedin), github: nullable(d.github), scholar: nullable(d.scholar), orcid: nullable(d.orcid), researchgate: nullable(d.researchgate),
-    cvFile: nullable(d.cvFile), seekingNote: str(d.seekingNote),
+    cvFile: nullable(d.cvFile), photo: nullable(d.photo), seekingNote: str(d.seekingNote),
     nav: arr(d.nav, (x) => { const o = (x ?? {}) as Raw; return { label: str(o.label), href: str(o.href, "/"), visible: bool(o.visible, true) }; }),
   };
 }
@@ -122,3 +122,56 @@ export const STATUS_LABEL: Record<string, string> = {
   employer: "Employer work",
   concept: "Concept, not built yet",
 };
+
+/* ---------- theme ---------- */
+const HEX = /^#[0-9a-f]{6}$/i;
+const hex = (v: unknown, d: string) => (typeof v === "string" && HEX.test(v) ? v : d);
+const pal = (v: unknown, d: Record<string, string>) => {
+  const o = (v ?? {}) as Raw;
+  return Object.fromEntries(Object.entries(d).map(([k, def]) => [k, hex(o[k], def)])) as Record<string, string>;
+};
+export const FONT_CHOICES = ["Bricolage Grotesque", "Space Grotesk", "Sora", "Syne", "Unbounded", "Archivo", "Manrope", "Outfit", "Plus Jakarta Sans", "Inter Tight", "DM Sans", "IBM Plex Sans", "Fraunces", "Playfair Display", "Instrument Serif", "Newsreader", "JetBrains Mono", "IBM Plex Mono", "Space Mono", "Geist Mono"];
+const font = (v: unknown, d: string) => (typeof v === "string" && FONT_CHOICES.includes(v) ? v : d);
+
+export async function getTheme() {
+  const d = await getSingleton("theme", false).catch(() => ({} as Raw));
+  const e = (d.effects ?? {}) as Raw;
+  return {
+    defaultMode: oneOf(d.defaultMode, ["dark", "light"], "dark") as "dark" | "light",
+    displayFont: font(d.displayFont, "Bricolage Grotesque"), bodyFont: font(d.bodyFont, "Bricolage Grotesque"),
+    monoFont: font(d.monoFont, "JetBrains Mono"), accentFont: font(d.accentFont, "Newsreader"),
+    radius: Math.max(0, Math.min(32, num(d.radius, 12) ?? 12)),
+    dark: pal(d.dark, { background: "#0f1f33", panel: "#16293f", deep: "#0a1626", accent: "#ffb347", accent2: "#5ec8e5", text: "#e7eef6", muted: "#9fb1c6", line: "#24405f" }),
+    light: pal(d.light, { background: "#f4f7fb", panel: "#ffffff", deep: "#e8eef5", accent: "#b86a00", accent2: "#0b6f8c", text: "#0f1f33", muted: "#4a5d74", line: "#cfd9e5" }),
+    effects: {
+      introCountdown: bool(e.introCountdown, true), customCursor: bool(e.customCursor, true), smoothScroll: bool(e.smoothScroll, true),
+      pageCurtain: bool(e.pageCurtain, true), globe3d: bool(e.globe3d, true), marquee: bool(e.marquee, true),
+      marqueeSpeed: Math.max(0, Math.min(5, num(e.marqueeSpeed, 0.8) ?? 0.8)),
+    },
+  };
+}
+export type Theme = Awaited<ReturnType<typeof getTheme>>;
+
+/** CSS variables + font overrides generated from the theme. Injected in the site layout. */
+export function themeCss(t: Theme) {
+  const vars = (p: Record<string, string>) =>
+    `--bg:${p.background};--panel:${p.panel};--deep:${p.deep};--amber:${p.accent};--cyan:${p.accent2};--text:${p.text};--muted:${p.muted};--line:${p.line};--map:${p.deep};`;
+  const NF: Record<string, string> = { "Bricolage Grotesque": "var(--nf-display)", "JetBrains Mono": "var(--nf-mono)", Newsreader: "var(--nf-serif)" };
+  const f = (name: string, fallback: string) => `${NF[name] ?? `"${name}"`}, ${fallback}`;
+  return `:root{${vars(t.dark)}color-scheme:dark;--f-display:${f(t.displayFont, "system-ui, sans-serif")};--f-body:${f(t.bodyFont, "system-ui, sans-serif")};--f-mono:${f(t.monoFont, "ui-monospace, monospace")};--f-serif:${f(t.accentFont, "Georgia, serif")};--radius:${t.radius}px}
+:root[data-theme="light"]{${vars(t.light)}color-scheme:light}
+body{font-family:var(--f-body)}
+.tile,.hp-card,.pub,.box,.cert,.int,.video,.cover,.mapbox,.job,.next-post{border-radius:var(--radius)}`;
+}
+/** Google Fonts axis specs that are valid for each choice (an invalid spec makes Google return 400). */
+const FONT_SPEC: Record<string, string> = {
+  "Space Grotesk": "wght@400;600;700", "IBM Plex Sans": "wght@400;600;700", "Instrument Serif": "ital@0;1",
+  "Playfair Display": "ital,wght@0,400;0,700;1,400", Fraunces: "ital,wght@0,400;0,700;1,400",
+  "IBM Plex Mono": "wght@400;600", "Space Mono": "wght@400;700", "Geist Mono": "wght@400;600",
+};
+const BUILT_IN = new Set(["Bricolage Grotesque", "JetBrains Mono", "Newsreader"]); // already loaded by next/font
+export function themeFontHrefs(t: Theme) {
+  return Array.from(new Set([t.displayFont, t.bodyFont, t.monoFont, t.accentFont]))
+    .filter((n) => !BUILT_IN.has(n))
+    .map((n) => `https://fonts.googleapis.com/css2?family=${n.replace(/ /g, "+")}:${FONT_SPEC[n] ?? "wght@400;600;700;800"}&display=swap`);
+}

@@ -16,7 +16,7 @@ export default function Nav({ links }: { links: { label: string; href: string }[
   useEffect(() => {
     const on = () => setScrolled(scrollY > 20);
     on(); addEventListener("scroll", on, { passive: true });
-    try { const t = localStorage.getItem("theme"); if (t === "light") { setTheme("light"); document.documentElement.dataset.theme = "light"; } } catch {}
+    if (document.documentElement.dataset.theme === "light") setTheme("light");
     return () => removeEventListener("scroll", on);
   }, []);
   useEffect(() => setOpen(false), [path]);
@@ -36,7 +36,6 @@ export default function Nav({ links }: { links: { label: string; href: string }[
             const on = l.href === "/" ? path === "/" : path.startsWith(l.href);
             return (
               <Link key={l.href} href={l.href} className={on ? "on" : ""}>
-                {on && <motion.span layoutId="navpill" className="pillbg" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
                 {l.label}
               </Link>
             );

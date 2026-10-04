@@ -15,7 +15,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <div className="adm">
         <aside>
           <Link className="brand" href="/admin">jalal<span>.</span>admin</Link>
-          <div className="grp"><h6>Overview</h6><Link href="/admin">Dashboard</Link>
+          <div className="grp"><h6>Overview</h6><Link href="/admin">Dashboard</Link><Link href="/admin/analytics">Analytics</Link>
             {Object.entries(SINGLETONS).map(([k, s]) => <Link key={k} href={`/admin/settings/${k}`}>{s.label}</Link>)}</div>
           {groups.map((g) => (
             <div className="grp" key={g}><h6>{g}</h6>
